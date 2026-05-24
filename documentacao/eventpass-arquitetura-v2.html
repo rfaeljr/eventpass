@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>EventPass SaaS — Arquitetura Macro v2</title>
+<style>
+* { margin:0; padding:0; box-sizing:border-box; }
+body {
+  background:#0b0f1a;
+  font-family:'Segoe UI',system-ui,sans-serif;
+  color:#e2e8f0;
+  padding:32px 20px 48px;
+}
+h1 { text-align:center; font-size:20px; font-weight:800; color:#fff; margin-bottom:4px; letter-spacing:.5px; }
+.sub { text-align:center; font-size:12px; color:#475569; margin-bottom:36px; }
+
+.wrap { max-width:1020px; margin:0 auto; display:flex; flex-direction:column; align-items:center; gap:0; }
+
+/* ── LAYERS ── */
+.layer {
+  width:100%;
+  border-radius:14px;
+  border:1.5px solid #2d3448;
+  background:#131929;
+  padding:18px 20px 16px;
+  position:relative;
+}
+.lbl {
+  position:absolute; top:-11px; left:18px;
+  background:#0b0f1a; padding:0 10px;
+  font-size:10px; font-weight:800; letter-spacing:1.4px; text-transform:uppercase;
+}
+
+.layer-a { border-color:#3730a3; } .layer-a .lbl { color:#818cf8; }
+.layer-b { border-color:#065f46; } .layer-b .lbl { color:#34d399; }
+.layer-c { border-color:#7c2d12; } .layer-c .lbl { color:#fb923c; }
+.layer-d { border-color:#831843; } .layer-d .lbl { color:#f472b6; }
+.layer-e { border-color:#713f12; } .layer-e .lbl { color:#fbbf24; }
+
+/* ── CARDS ── */
+.row { display:flex; gap:12px; flex-wrap:wrap; justify-content:center; }
+
+.card {
+  border-radius:10px; border:1.5px solid #2d3448; background:#1c2333;
+  padding:13px 16px; display:flex; flex-direction:column; align-items:center;
+  gap:7px; flex:1; min-width:130px; max-width:185px; cursor:default;
+  transition:transform .15s, box-shadow .15s;
+}
+.card:hover { transform:translateY(-3px); box-shadow:0 6px 24px #0006; }
+.card .ico { font-size:26px; }
+.card .nm  { font-size:12px; font-weight:700; color:#f1f5f9; text-align:center; line-height:1.35; }
+.card .tc  { font-size:10.5px; color:#64748b; text-align:center; line-height:1.4; }
+
+/* color themes */
+.ca { border-color:#4338ca; background:#1e1b4b; }
+.cb { border-color:#047857; background:#022c22; }
+.cc { border-color:#c2410c; background:#3b1108; }
+.cd { border-color:#be185d; background:#4a0020; }
+.ce { border-color:#b45309; background:#3b1a00; }
+.cf { border-color:#0e7490; background:#012a35; }
+.cg { border-color:#7c3aed; background:#1e0d47; }
+
+/* badges */
+.badges { display:flex; gap:6px; flex-wrap:wrap; justify-content:center; margin-top:3px; }
+.badge {
+  font-size:9.5px; padding:2px 7px; border-radius:20px; font-weight:700;
+}
+.bj { background:#172554; color:#93c5fd; border:1px solid #1d4ed8; }
+.br { background:#14532d; color:#86efac; border:1px solid #15803d; }
+.bw { background:#3b0764; color:#d8b4fe; border:1px solid #7c3aed; }
+.bo { background:#431407; color:#fdba74; border:1px solid #c2410c; }
+.bs { background:#1a2035; color:#94a3b8; border:1px solid #334155; }
+
+/* wide card */
+.card-wide {
+  max-width:100%; width:100%; flex-direction:row; gap:16px;
+  padding:15px 22px; align-items:center;
+}
+.card-wide .ico { font-size:32px; flex-shrink:0; }
+.card-wide .info { display:flex; flex-direction:column; gap:5px; flex:1; }
+.card-wide .nm { font-size:14px; text-align:left; }
+.card-wide .tc { text-align:left; font-size:11.5px; }
+
+/* ── ARROWS ── */
+.arr {
+  display:flex; flex-direction:column; align-items:center;
+  margin:5px 0; gap:0;
+}
+.arr-line { width:2px; height:24px; background:linear-gradient(to bottom,#334155,#1e293b); }
+.arr-head { width:0; height:0; border-left:7px solid transparent; border-right:7px solid transparent; border-top:9px solid #334155; }
+.arr-lbl  { font-size:10px; color:#334155; font-weight:700; letter-spacing:.9px; text-transform:uppercase; margin-top:3px; }
+
+/* ── DEVICE PAIRING SECTION ── */
+.pairing-box {
+  width:100%;
+  border:1.5px dashed #7c3aed;
+  border-radius:12px;
+  background:#13092a;
+  padding:14px 20px;
+  margin-top:10px;
+  display:flex;
+  align-items:center;
+  gap:16px;
+  flex-wrap:wrap;
+}
+.pairing-box .p-icon { font-size:28px; }
+.pairing-box .p-text { flex:1; }
+.pairing-box .p-title { font-size:12px; font-weight:800; color:#a78bfa; letter-spacing:.6px; text-transform:uppercase; }
+.pairing-box .p-desc  { font-size:11.5px; color:#64748b; margin-top:3px; line-height:1.5; }
+.steps { display:flex; gap:8px; margin-top:8px; flex-wrap:wrap; }
+.step {
+  background:#1e1040; border:1px solid #4c1d95; border-radius:8px;
+  padding:6px 10px; font-size:10.5px; color:#c4b5fd;
+  display:flex; align-items:center; gap:6px;
+}
+.step .sn {
+  background:#6d28d9; color:#fff; border-radius:50%;
+  width:16px; height:16px; display:flex; align-items:center; justify-content:center;
+  font-size:9px; font-weight:800; flex-shrink:0;
+}
+
+/* ── LEGEND ── */
+.legend {
+  max-width:1020px; margin:28px auto 0;
+  display:flex; gap:18px; flex-wrap:wrap; justify-content:center;
+}
+.li { display:flex; align-items:center; gap:7px; font-size:11.5px; color:#94a3b8; }
+.ld { width:10px; height:10px; border-radius:50%; }
+
+/* ── FLOW NOTE ── */
+.note {
+  max-width:1020px; margin:20px auto 0;
+  background:#0f1a12; border:1px solid #14532d; border-radius:10px;
+  padding:12px 18px; font-size:11.5px; color:#4ade80; line-height:1.7;
+}
+.note strong { color:#86efac; }
+</style>
+</head>
+<body>
+
+<h1>🎉 EventPass SaaS — Arquitetura Macro</h1>
+<p class="sub">Fluxo completo: Self-service · Pareamento de dispositivos · Operação de portaria em tempo real</p>
+
+<div class="wrap">
+
+  <!-- ══ CAMADA 1: CLIENTES ══ -->
+  <div class="layer layer-a">
+    <span class="lbl">Interfaces — Clientes e Usuários</span>
+    <div class="row">
+      <div class="card ca">
+        <span class="ico">🌐</span>
+        <span class="nm">Landing Page Pública</span>
+        <span class="tc">Planos · Cadastro · Login</span>
+      </div>
+      <div class="card ca">
+        <span class="ico">🖥️</span>
+        <span class="nm">Painel Web Admin</span>
+        <span class="tc">React + Vite<br>Eventos · Convidados · Devices</span>
+      </div>
+      <div class="card ca">
+        <span class="ico">📊</span>
+        <span class="nm">Dashboard Ao Vivo</span>
+        <span class="tc">WebSocket / SSE<br>Entradas em tempo real</span>
+      </div>
+      <div class="card ca">
+        <span class="ico">📱</span>
+        <span class="nm">App Portaria Android</span>
+        <span class="tc">Kotlin · CameraX<br>Scanner QR Code</span>
+      </div>
+      <div class="card ca">
+        <span class="ico">🔗</span>
+        <span class="nm">Página do Convite</span>
+        <span class="tc">PWA estático<br>QR Code · dados do evento</span>
+      </div>
+    </div>
+
+    <!-- Device Pairing Box -->
+    <div class="pairing-box">
+      <span class="p-icon">🔗</span>
+      <div class="p-text">
+        <div class="p-title">Fluxo de Pareamento de Dispositivo (Device Pairing)</div>
+        <div class="p-desc">Admin gera QR Code no painel web → App Android lê → dispositivo fica vinculado à conta e recebe token de acesso único.</div>
+        <div class="steps">
+          <div class="step"><span class="sn">1</span> Admin clica em "+ Dispositivo" no painel</div>
+          <div class="step"><span class="sn">2</span> API gera JWT de pareamento (uso único, expira em 10min)</div>
+          <div class="step"><span class="sn">3</span> QR Code exibido na tela do computador</div>
+          <div class="step"><span class="sn">4</span> App Android lê o QR Code</div>
+          <div class="step"><span class="sn">5</span> App troca o JWT por Device Token permanente</div>
+          <div class="step"><span class="sn">6</span> Dispositivo aparece como 🟢 Online no painel</div>
+          <div class="step"><span class="sn">7</span> Admin associa o device a um evento ativo</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="arr">
+    <div class="arr-line"></div><div class="arr-head"></div>
+    <span class="arr-lbl">HTTPS · REST · WebSocket</span>
+  </div>
+
+  <!-- ══ CAMADA 2: API GATEWAY ══ -->
+  <div class="layer layer-b">
+    <span class="lbl">API Gateway — Backend Principal</span>
+    <div class="row">
+      <div class="card cb card-wide">
+        <span class="ico">⚙️</span>
+        <div class="info">
+          <span class="nm">Spring Boot — API REST</span>
+          <span class="tc">Java 21 · Spring Security · Spring Data JPA · WebSocket</span>
+          <div class="badges">
+            <span class="badge bj">JWT Auth</span>
+            <span class="badge br">RESTful</span>
+            <span class="badge bw">Device Token</span>
+            <span class="badge bo">Rate Limit</span>
+            <span class="badge bs">CORS</span>
+            <span class="badge bj">Multi-tenant</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="arr">
+    <div class="arr-line"></div><div class="arr-head"></div>
+    <span class="arr-lbl">Domínios de negócio</span>
+  </div>
+
+  <!-- ══ CAMADA 3: SERVIÇOS ══ -->
+  <div class="layer layer-c">
+    <span class="lbl">Camada de Serviços — Domínios</span>
+    <div class="row">
+      <div class="card cc">
+        <span class="ico">👤</span>
+        <span class="nm">Auth & Usuários</span>
+        <span class="tc">Cadastro · OTP · JWT<br>Planos · Trial</span>
+      </div>
+      <div class="card cc">
+        <span class="ico">💳</span>
+        <span class="nm">Assinaturas</span>
+        <span class="tc">Planos · Cobrança<br>Webhooks pagamento</span>
+      </div>
+      <div class="card cc">
+        <span class="ico">🗓️</span>
+        <span class="nm">Eventos</span>
+        <span class="tc">CRUD · Status<br>Regras de negócio</span>
+      </div>
+      <div class="card cc">
+        <span class="ico">👥</span>
+        <span class="nm">Convidados</span>
+        <span class="tc">Manual · Planilha<br>Validação em lote</span>
+      </div>
+      <div class="card cc">
+        <span class="ico">🔲</span>
+        <span class="nm">QR Code</span>
+        <span class="tc">Geração · UUID<br>ZXing · Validação</span>
+      </div>
+      <div class="card cc">
+        <span class="ico">📱</span>
+        <span class="nm">Devices</span>
+        <span class="tc">Pareamento · Token<br>Associação evento</span>
+      </div>
+      <div class="card cc">
+        <span class="ico">🚪</span>
+        <span class="nm">Portaria</span>
+        <span class="tc">Leitura · Validação<br>Registro de entrada</span>
+      </div>
+      <div class="card cc">
+        <span class="ico">📤</span>
+        <span class="nm">Notificações</span>
+        <span class="tc">WhatsApp · E-mail<br>Push · Fila async</span>
+      </div>
+      <div class="card cc">
+        <span class="ico">📈</span>
+        <span class="nm">Relatórios</span>
+        <span class="tc">PDF · Excel<br>Métricas ao vivo</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="arr">
+    <div class="arr-line"></div><div class="arr-head"></div>
+    <span class="arr-lbl">Leitura / Escrita</span>
+  </div>
+
+  <!-- ══ CAMADA 4: DADOS ══ -->
+  <div class="layer layer-d">
+    <span class="lbl">Camada de Dados</span>
+    <div class="row">
+      <div class="card cd">
+        <span class="ico">🗄️</span>
+        <span class="nm">MySQL</span>
+        <span class="tc">Dados principais<br>Multi-tenant (schema)</span>
+      </div>
+      <div class="card cd">
+        <span class="ico">⚡</span>
+        <span class="nm">Redis</span>
+        <span class="tc">Cache · Sessões<br>Fila de envios<br>Tokens OTP</span>
+      </div>
+      <div class="card cd">
+        <span class="ico">🗂️</span>
+        <span class="nm">AWS S3 / MinIO</span>
+        <span class="tc">Banners · QR Codes<br>PDFs · Planilhas</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="arr">
+    <div class="arr-line"></div><div class="arr-head"></div>
+    <span class="arr-lbl">Integrações externas</span>
+  </div>
+
+  <!-- ══ CAMADA 5: EXTERNOS ══ -->
+  <div class="layer layer-e">
+    <span class="lbl">Serviços Externos</span>
+    <div class="row">
+      <div class="card ce">
+        <span class="ico">💬</span>
+        <span class="nm">WhatsApp API</span>
+        <span class="tc">Z-API / Evolution<br>Convites · OTP · Alertas</span>
+      </div>
+      <div class="card ce">
+        <span class="ico">📧</span>
+        <span class="nm">E-mail</span>
+        <span class="tc">SendGrid / SES<br>Convites · Confirmações</span>
+      </div>
+      <div class="card ce">
+        <span class="ico">🔔</span>
+        <span class="nm">Push Notification</span>
+        <span class="tc">Firebase FCM<br>App da portaria</span>
+      </div>
+      <div class="card ce">
+        <span class="ico">💳</span>
+        <span class="nm">Pagamentos</span>
+        <span class="tc">Mercado Pago<br>Cartão · Pix · Boleto</span>
+      </div>
+      <div class="card ce">
+        <span class="ico">☁️</span>
+        <span class="nm">Hospedagem</span>
+        <span class="tc">Railway / VPS<br>Docker + CI/CD</span>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<!-- LEGEND -->
+<div class="legend">
+  <div class="li"><div class="ld" style="background:#4338ca"></div> Interfaces de usuário</div>
+  <div class="li"><div class="ld" style="background:#7c3aed"></div> Pareamento de dispositivo</div>
+  <div class="li"><div class="ld" style="background:#047857"></div> API Gateway (Spring Boot)</div>
+  <div class="li"><div class="ld" style="background:#c2410c"></div> Serviços de domínio</div>
+  <div class="li"><div class="ld" style="background:#be185d"></div> Persistência de dados</div>
+  <div class="li"><div class="ld" style="background:#b45309"></div> Integrações externas</div>
+</div>
+
+<!-- NOTE -->
+<div class="note" style="max-width:1020px; margin:20px auto 0;">
+  <strong>Multi-tenant:</strong> cada cliente Admin tem seus dados isolados no banco (schema por tenant ou tenant_id).
+  O <strong>Device Token</strong> é diferente do JWT do usuário — ele identifica o hardware da portaria de forma permanente e independente de sessão.
+  O <strong>QR Code de pareamento</strong> é de uso único e expira em 10 minutos por segurança.
+</div>
+
+</body>
+</html>
