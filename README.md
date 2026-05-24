@@ -1,7 +1,7 @@
 # Software Utilizado
 * Jdk 26
 * docker compose
-* Intelij(backend Spring Boot, Mysql, Redis, RabbitMQ etc e web react vite, tailcss, shadcn etc 
+* Intelij(backend Spring Boot, Mysql, Redis, RabbitMQ etc e web react vite, tailcss, shadcn etc )
 * Android Studio(kotlin etc)
 ---------
 # Projetos
