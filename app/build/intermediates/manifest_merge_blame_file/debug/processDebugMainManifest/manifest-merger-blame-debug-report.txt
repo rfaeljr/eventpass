@@ -1,0 +1,179 @@
+1<?xml version="1.0" encoding="utf-8"?>
+2<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+3    package="br.com.eventpass.portaria.debug"
+4    android:versionCode="1"
+5    android:versionName="1.0.0" >
+6
+7    <uses-sdk
+7-->INJECTED
+8        android:minSdkVersion="29"
+8-->INJECTED
+9        android:targetSdkVersion="34" />
+9-->INJECTED
+10
+11    <uses-permission android:name="android.permission.INTERNET" />
+11-->C:\Projetos\eventpass-android\app\src\main\AndroidManifest.xml:4:5-67
+11-->C:\Projetos\eventpass-android\app\src\main\AndroidManifest.xml:4:22-64
+12    <uses-permission android:name="android.permission.CAMERA" />
+12-->C:\Projetos\eventpass-android\app\src\main\AndroidManifest.xml:5:5-65
+12-->C:\Projetos\eventpass-android\app\src\main\AndroidManifest.xml:5:22-62
+13
+14    <uses-feature
+14-->C:\Projetos\eventpass-android\app\src\main\AndroidManifest.xml:7:5-9:35
+15        android:name="android.hardware.camera"
+15-->C:\Projetos\eventpass-android\app\src\main\AndroidManifest.xml:8:9-47
+16        android:required="true" />
+16-->C:\Projetos\eventpass-android\app\src\main\AndroidManifest.xml:9:9-32
+17
+18    <permission
+18-->[androidx.core:core:1.13.1] C:\Users\rafaelcosta\.gradle\caches\9.4.1\transforms\8c6aced6ac3c39f3f8397c8635fa424d\transformed\core-1.13.1\AndroidManifest.xml:22:5-24:47
+19        android:name="br.com.eventpass.portaria.debug.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION"
+19-->[androidx.core:core:1.13.1] C:\Users\rafaelcosta\.gradle\caches\9.4.1\transforms\8c6aced6ac3c39f3f8397c8635fa424d\transformed\core-1.13.1\AndroidManifest.xml:23:9-81
+20        android:protectionLevel="signature" />
+20-->[androidx.core:core:1.13.1] C:\Users\rafaelcosta\.gradle\caches\9.4.1\transforms\8c6aced6ac3c39f3f8397c8635fa424d\transformed\core-1.13.1\AndroidManifest.xml:24:9-44
+21
+22    <uses-permission android:name="br.com.eventpass.portaria.debug.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION" />
+22-->[androidx.core:core:1.13.1] C:\Users\rafaelcosta\.gradle\caches\9.4.1\transforms\8c6aced6ac3c39f3f8397c8635fa424d\transformed\core-1.13.1\AndroidManifest.xml:26:5-97
+22-->[androidx.core:core:1.13.1] C:\Users\rafaelcosta\.gradle\caches\9.4.1\transforms\8c6aced6ac3c39f3f8397c8635fa424d\transformed\core-1.13.1\AndroidManifest.xml:26:22-94
+23
+24    <application
+24-->C:\Projetos\eventpass-android\app\src\main\AndroidManifest.xml:11:5-32:19
+25        android:name="br.com.eventpass.portaria.EventPassApp"
+25-->C:\Projetos\eventpass-android\app\src\main\AndroidManifest.xml:12:9-37
+26        android:allowBackup="true"
+26-->C:\Projetos\eventpass-android\app\src\main\AndroidManifest.xml:13:9-35
+27        android:appComponentFactory="androidx.core.app.CoreComponentFactory"
+27-->[androidx.core:core:1.13.1] C:\Users\rafaelcosta\.gradle\caches\9.4.1\transforms\8c6aced6ac3c39f3f8397c8635fa424d\transformed\core-1.13.1\AndroidManifest.xml:28:18-86
+28        android:debuggable="true"
+29        android:extractNativeLibs="false"
+29-->INJECTED
+30        android:icon="@mipmap/ic_launcher"
+30-->C:\Projetos\eventpass-android\app\src\main\AndroidManifest.xml:14:9-43
+31        android:label="@string/app_name"
+31-->C:\Projetos\eventpass-android\app\src\main\AndroidManifest.xml:15:9-41
+32        android:roundIcon="@mipmap/ic_launcher_round"
+32-->C:\Projetos\eventpass-android\app\src\main\AndroidManifest.xml:16:9-54
+33        android:supportsRtl="true"
+33-->C:\Projetos\eventpass-android\app\src\main\AndroidManifest.xml:17:9-35
+34        android:testOnly="true"
+35        android:theme="@style/Theme.EventPassPortaria"
+35-->C:\Projetos\eventpass-android\app\src\main\AndroidManifest.xml:18:9-55
+36        android:usesCleartextTraffic="true" >
+36-->C:\Projetos\eventpass-android\app\src\main\AndroidManifest.xml:19:9-44
+37        <activity
+37-->C:\Projetos\eventpass-android\app\src\main\AndroidManifest.xml:21:9-30:20
+38            android:name="br.com.eventpass.portaria.MainActivity"
+38-->C:\Projetos\eventpass-android\app\src\main\AndroidManifest.xml:22:13-41
+39            android:exported="true"
+39-->C:\Projetos\eventpass-android\app\src\main\AndroidManifest.xml:23:13-36
+40            android:screenOrientation="portrait"
+40-->C:\Projetos\eventpass-android\app\src\main\AndroidManifest.xml:24:13-49
+41            android:windowSoftInputMode="adjustResize" >
+41-->C:\Projetos\eventpass-android\app\src\main\AndroidManifest.xml:25:13-55
+42            <intent-filter>
+42-->C:\Projetos\eventpass-android\app\src\main\AndroidManifest.xml:26:13-29:29
+43                <action android:name="android.intent.action.MAIN" />
+43-->C:\Projetos\eventpass-android\app\src\main\AndroidManifest.xml:27:17-69
+43-->C:\Projetos\eventpass-android\app\src\main\AndroidManifest.xml:27:25-66
+44
+45                <category android:name="android.intent.category.LAUNCHER" />
+45-->C:\Projetos\eventpass-android\app\src\main\AndroidManifest.xml:28:17-77
+45-->C:\Projetos\eventpass-android\app\src\main\AndroidManifest.xml:28:27-74
+46            </intent-filter>
+47        </activity>
+48
+49        <!--
+50        Service for holding metadata. Cannot be instantiated.
+51        Metadata will be merged from other manifests.
+52        -->
+53        <service
+53-->[androidx.camera:camera-core:1.4.0] C:\Users\rafaelcosta\.gradle\caches\9.4.1\transforms\25b2a5961b2d918d6310c537cee41cd2\transformed\camera-core-1.4.0\AndroidManifest.xml:29:9-33:78
+54            android:name="androidx.camera.core.impl.MetadataHolderService"
+54-->[androidx.camera:camera-core:1.4.0] C:\Users\rafaelcosta\.gradle\caches\9.4.1\transforms\25b2a5961b2d918d6310c537cee41cd2\transformed\camera-core-1.4.0\AndroidManifest.xml:30:13-75
+55            android:enabled="false"
+55-->[androidx.camera:camera-core:1.4.0] C:\Users\rafaelcosta\.gradle\caches\9.4.1\transforms\25b2a5961b2d918d6310c537cee41cd2\transformed\camera-core-1.4.0\AndroidManifest.xml:31:13-36
+56            android:exported="false" >
+56-->[androidx.camera:camera-core:1.4.0] C:\Users\rafaelcosta\.gradle\caches\9.4.1\transforms\25b2a5961b2d918d6310c537cee41cd2\transformed\camera-core-1.4.0\AndroidManifest.xml:32:13-37
+57            <meta-data
+57-->[androidx.camera:camera-camera2:1.4.0] C:\Users\rafaelcosta\.gradle\caches\9.4.1\transforms\e3b5b16110182f82a12f66556b2cc818\transformed\camera-camera2-1.4.0\AndroidManifest.xml:30:13-32:89
+58                android:name="androidx.camera.core.impl.MetadataHolderService.DEFAULT_CONFIG_PROVIDER"
+58-->[androidx.camera:camera-camera2:1.4.0] C:\Users\rafaelcosta\.gradle\caches\9.4.1\transforms\e3b5b16110182f82a12f66556b2cc818\transformed\camera-camera2-1.4.0\AndroidManifest.xml:31:17-103
+59                android:value="androidx.camera.camera2.Camera2Config$DefaultProvider" />
+59-->[androidx.camera:camera-camera2:1.4.0] C:\Users\rafaelcosta\.gradle\caches\9.4.1\transforms\e3b5b16110182f82a12f66556b2cc818\transformed\camera-camera2-1.4.0\AndroidManifest.xml:32:17-86
+60        </service>
+61
+62        <provider
+62-->[androidx.emoji2:emoji2:1.3.0] C:\Users\rafaelcosta\.gradle\caches\9.4.1\transforms\7a0f24dd46512f59686947851e1f927f\transformed\emoji2-1.3.0\AndroidManifest.xml:24:9-32:20
+63            android:name="androidx.startup.InitializationProvider"
+63-->[androidx.emoji2:emoji2:1.3.0] C:\Users\rafaelcosta\.gradle\caches\9.4.1\transforms\7a0f24dd46512f59686947851e1f927f\transformed\emoji2-1.3.0\AndroidManifest.xml:25:13-67
+64            android:authorities="br.com.eventpass.portaria.debug.androidx-startup"
+64-->[androidx.emoji2:emoji2:1.3.0] C:\Users\rafaelcosta\.gradle\caches\9.4.1\transforms\7a0f24dd46512f59686947851e1f927f\transformed\emoji2-1.3.0\AndroidManifest.xml:26:13-68
+65            android:exported="false" >
+65-->[androidx.emoji2:emoji2:1.3.0] C:\Users\rafaelcosta\.gradle\caches\9.4.1\transforms\7a0f24dd46512f59686947851e1f927f\transformed\emoji2-1.3.0\AndroidManifest.xml:27:13-37
+66            <meta-data
+66-->[androidx.emoji2:emoji2:1.3.0] C:\Users\rafaelcosta\.gradle\caches\9.4.1\transforms\7a0f24dd46512f59686947851e1f927f\transformed\emoji2-1.3.0\AndroidManifest.xml:29:13-31:52
+67                android:name="androidx.emoji2.text.EmojiCompatInitializer"
+67-->[androidx.emoji2:emoji2:1.3.0] C:\Users\rafaelcosta\.gradle\caches\9.4.1\transforms\7a0f24dd46512f59686947851e1f927f\transformed\emoji2-1.3.0\AndroidManifest.xml:30:17-75
+68                android:value="androidx.startup" />
+68-->[androidx.emoji2:emoji2:1.3.0] C:\Users\rafaelcosta\.gradle\caches\9.4.1\transforms\7a0f24dd46512f59686947851e1f927f\transformed\emoji2-1.3.0\AndroidManifest.xml:31:17-49
+69            <meta-data
+69-->[androidx.lifecycle:lifecycle-process:2.8.2] C:\Users\rafaelcosta\.gradle\caches\9.4.1\transforms\190fa8d9ac0607e666cd6b1a94f10495\transformed\lifecycle-process-2.8.2\AndroidManifest.xml:29:13-31:52
+70                android:name="androidx.lifecycle.ProcessLifecycleInitializer"
+70-->[androidx.lifecycle:lifecycle-process:2.8.2] C:\Users\rafaelcosta\.gradle\caches\9.4.1\transforms\190fa8d9ac0607e666cd6b1a94f10495\transformed\lifecycle-process-2.8.2\AndroidManifest.xml:30:17-78
+71                android:value="androidx.startup" />
+71-->[androidx.lifecycle:lifecycle-process:2.8.2] C:\Users\rafaelcosta\.gradle\caches\9.4.1\transforms\190fa8d9ac0607e666cd6b1a94f10495\transformed\lifecycle-process-2.8.2\AndroidManifest.xml:31:17-49
+72            <meta-data
+72-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\rafaelcosta\.gradle\caches\9.4.1\transforms\577d2d515b4e177bb4f5c7aabd3c4d9b\transformed\profileinstaller-1.3.1\AndroidManifest.xml:29:13-31:52
+73                android:name="androidx.profileinstaller.ProfileInstallerInitializer"
+73-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\rafaelcosta\.gradle\caches\9.4.1\transforms\577d2d515b4e177bb4f5c7aabd3c4d9b\transformed\profileinstaller-1.3.1\AndroidManifest.xml:30:17-85
+74                android:value="androidx.startup" />
+74-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\rafaelcosta\.gradle\caches\9.4.1\transforms\577d2d515b4e177bb4f5c7aabd3c4d9b\transformed\profileinstaller-1.3.1\AndroidManifest.xml:31:17-49
+75        </provider>
+76
+77        <activity
+77-->[androidx.compose.ui:ui-tooling-android:1.6.8] C:\Users\rafaelcosta\.gradle\caches\9.4.1\transforms\e46bd2326f9e7c5b7cdc28af3d2a7c7a\transformed\ui-tooling-release\AndroidManifest.xml:23:9-25:39
+78            android:name="androidx.compose.ui.tooling.PreviewActivity"
+78-->[androidx.compose.ui:ui-tooling-android:1.6.8] C:\Users\rafaelcosta\.gradle\caches\9.4.1\transforms\e46bd2326f9e7c5b7cdc28af3d2a7c7a\transformed\ui-tooling-release\AndroidManifest.xml:24:13-71
+79            android:exported="true" />
+79-->[androidx.compose.ui:ui-tooling-android:1.6.8] C:\Users\rafaelcosta\.gradle\caches\9.4.1\transforms\e46bd2326f9e7c5b7cdc28af3d2a7c7a\transformed\ui-tooling-release\AndroidManifest.xml:25:13-36
+80
+81        <receiver
+81-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\rafaelcosta\.gradle\caches\9.4.1\transforms\577d2d515b4e177bb4f5c7aabd3c4d9b\transformed\profileinstaller-1.3.1\AndroidManifest.xml:34:9-52:20
+82            android:name="androidx.profileinstaller.ProfileInstallReceiver"
+82-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\rafaelcosta\.gradle\caches\9.4.1\transforms\577d2d515b4e177bb4f5c7aabd3c4d9b\transformed\profileinstaller-1.3.1\AndroidManifest.xml:35:13-76
+83            android:directBootAware="false"
+83-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\rafaelcosta\.gradle\caches\9.4.1\transforms\577d2d515b4e177bb4f5c7aabd3c4d9b\transformed\profileinstaller-1.3.1\AndroidManifest.xml:36:13-44
+84            android:enabled="true"
+84-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\rafaelcosta\.gradle\caches\9.4.1\transforms\577d2d515b4e177bb4f5c7aabd3c4d9b\transformed\profileinstaller-1.3.1\AndroidManifest.xml:37:13-35
+85            android:exported="true"
+85-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\rafaelcosta\.gradle\caches\9.4.1\transforms\577d2d515b4e177bb4f5c7aabd3c4d9b\transformed\profileinstaller-1.3.1\AndroidManifest.xml:38:13-36
+86            android:permission="android.permission.DUMP" >
+86-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\rafaelcosta\.gradle\caches\9.4.1\transforms\577d2d515b4e177bb4f5c7aabd3c4d9b\transformed\profileinstaller-1.3.1\AndroidManifest.xml:39:13-57
+87            <intent-filter>
+87-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\rafaelcosta\.gradle\caches\9.4.1\transforms\577d2d515b4e177bb4f5c7aabd3c4d9b\transformed\profileinstaller-1.3.1\AndroidManifest.xml:40:13-42:29
+88                <action android:name="androidx.profileinstaller.action.INSTALL_PROFILE" />
+88-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\rafaelcosta\.gradle\caches\9.4.1\transforms\577d2d515b4e177bb4f5c7aabd3c4d9b\transformed\profileinstaller-1.3.1\AndroidManifest.xml:41:17-91
+88-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\rafaelcosta\.gradle\caches\9.4.1\transforms\577d2d515b4e177bb4f5c7aabd3c4d9b\transformed\profileinstaller-1.3.1\AndroidManifest.xml:41:25-88
+89            </intent-filter>
+90            <intent-filter>
+90-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\rafaelcosta\.gradle\caches\9.4.1\transforms\577d2d515b4e177bb4f5c7aabd3c4d9b\transformed\profileinstaller-1.3.1\AndroidManifest.xml:43:13-45:29
+91                <action android:name="androidx.profileinstaller.action.SKIP_FILE" />
+91-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\rafaelcosta\.gradle\caches\9.4.1\transforms\577d2d515b4e177bb4f5c7aabd3c4d9b\transformed\profileinstaller-1.3.1\AndroidManifest.xml:44:17-85
+91-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\rafaelcosta\.gradle\caches\9.4.1\transforms\577d2d515b4e177bb4f5c7aabd3c4d9b\transformed\profileinstaller-1.3.1\AndroidManifest.xml:44:25-82
+92            </intent-filter>
+93            <intent-filter>
+93-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\rafaelcosta\.gradle\caches\9.4.1\transforms\577d2d515b4e177bb4f5c7aabd3c4d9b\transformed\profileinstaller-1.3.1\AndroidManifest.xml:46:13-48:29
+94                <action android:name="androidx.profileinstaller.action.SAVE_PROFILE" />
+94-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\rafaelcosta\.gradle\caches\9.4.1\transforms\577d2d515b4e177bb4f5c7aabd3c4d9b\transformed\profileinstaller-1.3.1\AndroidManifest.xml:47:17-88
+94-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\rafaelcosta\.gradle\caches\9.4.1\transforms\577d2d515b4e177bb4f5c7aabd3c4d9b\transformed\profileinstaller-1.3.1\AndroidManifest.xml:47:25-85
+95            </intent-filter>
+96            <intent-filter>
+96-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\rafaelcosta\.gradle\caches\9.4.1\transforms\577d2d515b4e177bb4f5c7aabd3c4d9b\transformed\profileinstaller-1.3.1\AndroidManifest.xml:49:13-51:29
+97                <action android:name="androidx.profileinstaller.action.BENCHMARK_OPERATION" />
+97-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\rafaelcosta\.gradle\caches\9.4.1\transforms\577d2d515b4e177bb4f5c7aabd3c4d9b\transformed\profileinstaller-1.3.1\AndroidManifest.xml:50:17-95
+97-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\rafaelcosta\.gradle\caches\9.4.1\transforms\577d2d515b4e177bb4f5c7aabd3c4d9b\transformed\profileinstaller-1.3.1\AndroidManifest.xml:50:25-92
+98            </intent-filter>
+99        </receiver>
+100    </application>
+101
+102</manifest>

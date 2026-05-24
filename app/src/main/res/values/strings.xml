@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">EventPass Portaria</string>
+    <string name="camera_permission_title">Permissão de Câmera</string>
+    <string name="camera_permission_message">O app precisa da câmera para ler QR Codes dos convidados.</string>
+    <string name="camera_permission_button">Conceder Permissão</string>
+    <string name="pareamento_titulo">Vincular Dispositivo</string>
+    <string name="pareamento_instrucao">Aponte para o QR Code exibido no painel web</string>
+    <string name="entrada_liberada">ENTRADA LIBERADA</string>
+    <string name="entrada_negada">ENTRADA NEGADA</string>
+    <string name="ja_entrou">JÁ ENTROU</string>
+    <string name="iniciar_leitura">📷  INICIAR LEITURA</string>
+    <string name="buscar_por_nome">🔍  Buscar por nome</string>
+    <string name="proximo">Próximo</string>
+    <string name="voltar">Voltar</string>
+    <string name="tentar_novamente">Tentar novamente</string>
+    <string name="nenhum_evento_associado">Nenhum evento associado</string>
+    <string name="app_portaria_header">🎉 EventPass Portaria</string>
+    <string name="label_entradas">Entradas</string>
+    <string name="label_convidados">Convidados</string>
+    <string name="label_ocupacao">Ocupação</string>
+    <string name="label_capacidade">Capacidade: %s</string>
+    <string name="label_ilimitado">ilimitado</string>
+    <string name="validando_entrada">Validando entrada…</string>
+    <string name="msg_qr_nao_funciona">QR Code não funciona? Use a busca por nome</string>
+    <string name="label_acompanhantes">Acompanhantes:</string>
+    <string name="msg_voltando_scanner">Voltando ao scanner em 3s…</string>
+    <string name="btn_permitir_reentrada">Permitir reentrada</string>
+    <string name="titulo_erro_conexao">Erro de comunicação</string>
+    <string name="hint_busca_convidado">Digite o nome do convidado…</string>
+    <string name="msg_instrucao_busca">Digite pelo menos 3 letras para buscar</string>
+    <string name="msg_nenhum_convidado">Nenhum convidado encontrado</string>
+    <string name="msg_resultados_busca">%d resultado(s) encontrado(s)</string>
+    <string name="status_entrou">✅ Entrou</string>
+    <string name="status_aguardando">● Aguardando</string>
+    <string name="msg_vinculando">Vinculando dispositivo…</string>
+    <string name="msg_vinculado">Dispositivo vinculado!</string>
+    <string name="msg_falha_pareamento">Falha no pareamento</string>
+    <string name="msg_aguarde_admin">Aguarde o administrador associar este dispositivo a um evento no painel web.</string>
+    <string name="btn_continuar">Continuar</string>
+    <string name="msg_permissao_necessaria">Permissão de câmera necessária</string>
+    <string name="msg_aponte_qr_convidado">Aponte para o QR Code do convidado</string>
+</resources>
