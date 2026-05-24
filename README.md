@@ -12,7 +12,7 @@
 * Com o docker compose instalado e executando abrir o bash / cmd entrar na pasta( cd eventpass-solucao) e executar:
 * | docker-compose up --build
 
-* Informações sobre configuração, user e senha de banco de dados e dos demais componentes da aplicação estão no arquivo: **docker-compose.yml** na raíz eventapass-solucao
+* Informações sobre configuração, user e senha de banco de dados e dos demais componentes da aplicação estão no arquivo: **docker-compose.yml** na raíz eventpass-solucao
 
 
 # 🎉 EventPass SaaS — Fluxo Funcional Completo
