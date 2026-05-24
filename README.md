@@ -1,17 +1,18 @@
 # Software Utilizado
-Jdk 26
-docker compose
-Intelij(backend Spring Boot, Mysql, Redis, RabbitMQ etc e web react vite, tailcss, shadcn etc 
-Android Studio(kotlin etc)
+* Jdk 26
+* docker compose
+* Intelij(backend Spring Boot, Mysql, Redis, RabbitMQ etc e web react vite, tailcss, shadcn etc 
+* Android Studio(kotlin etc)
 ---------
 # Projetos
-Projeto Android: pasta eventpass-android
-Projeto Backend e Web: pasta eventpass-solucao
+* Projeto Android: pasta eventpass-android
+* Projeto Backend e Web: pasta eventpass-solucao
 
 # Execução
-Com o docker compose instalado e executando abrir o bash / cmd entrar na pasta( cd eventpass-solucao) e executar:
-docker-compose up --build
-informações sobre configuração, user e senha de banco de dados e dos demais componentes da aplicação estão no arquivo: docker-compose.yml na raíz eventapass-solucao
+* Com o docker compose instalado e executando abrir o bash / cmd entrar na pasta( cd eventpass-solucao) e executar:
+* | docker-compose up --build
+
+* Informações sobre configuração, user e senha de banco de dados e dos demais componentes da aplicação estão no arquivo: **docker-compose.yml** na raíz eventapass-solucao
 
 
 # 🎉 EventPass SaaS — Fluxo Funcional Completo
