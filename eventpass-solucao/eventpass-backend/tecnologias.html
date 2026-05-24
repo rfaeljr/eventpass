@@ -1,0 +1,1014 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>EventPass — Tutorial de Tecnologias</title>
+<style>
+* { margin:0; padding:0; box-sizing:border-box; }
+body {
+  background:#0b0f1a;
+  font-family:'Segoe UI',system-ui,sans-serif;
+  color:#e2e8f0;
+  line-height:1.7;
+}
+
+/* ── SIDEBAR ── */
+.layout { display:flex; min-height:100vh; }
+.sidebar {
+  width:260px; background:#080c16; border-right:1px solid #1e293b;
+  padding:24px 0; position:fixed; top:0; left:0; height:100vh;
+  overflow-y:auto; z-index:100; flex-shrink:0;
+}
+.sidebar-title {
+  font-size:11px; font-weight:800; letter-spacing:1.5px;
+  text-transform:uppercase; color:#475569; padding:0 20px 12px;
+  border-bottom:1px solid #1e293b; margin-bottom:8px;
+}
+.sidebar a {
+  display:flex; align-items:center; gap:10px;
+  padding:8px 20px; font-size:12.5px; color:#94a3b8;
+  text-decoration:none; transition:all .15s; border-left:3px solid transparent;
+}
+.sidebar a:hover { color:#e2e8f0; background:#0f1520; border-left-color:#334155; }
+.sidebar a.active { color:#60a5fa; background:#0f1929; border-left-color:#3b82f6; }
+.sidebar a .si { font-size:16px; flex-shrink:0; }
+
+/* ── MAIN ── */
+.main { margin-left:260px; padding:40px 40px 80px; max-width:900px; }
+
+h1 { font-size:26px; font-weight:800; color:#fff; margin-bottom:6px; }
+.intro-sub { font-size:13px; color:#475569; margin-bottom:48px; }
+
+/* ── SECTION ── */
+.tech-section {
+  margin-bottom:56px;
+  scroll-margin-top:24px;
+}
+.tech-header {
+  display:flex; align-items:center; gap:14px;
+  padding:20px 24px; border-radius:14px 14px 0 0;
+  border:1.5px solid #1e293b; border-bottom:none;
+}
+.tech-header .th-ico { font-size:32px; }
+.tech-header .th-info { flex:1; }
+.tech-header .th-name { font-size:18px; font-weight:800; color:#fff; }
+.tech-header .th-sub  { font-size:12px; color:#64748b; margin-top:2px; }
+.tech-header .th-ver  {
+  font-size:10px; font-family:monospace; padding:3px 10px;
+  border-radius:20px; font-weight:700;
+}
+
+.tech-body {
+  border:1.5px solid #1e293b; border-top:none;
+  border-radius:0 0 14px 14px; background:#131929;
+  padding:24px;
+}
+
+/* ── WHAT IS ── */
+.what-is {
+  background:#0a0f1e; border-radius:8px; padding:14px 18px;
+  margin-bottom:20px; border-left:3px solid #334155;
+  font-size:13px; color:#94a3b8; line-height:1.7;
+}
+.what-is strong { color:#e2e8f0; }
+
+/* ── STEPS ── */
+.steps { display:flex; flex-direction:column; gap:14px; margin-bottom:20px; }
+.step-item {
+  display:flex; gap:14px; align-items:flex-start;
+}
+.step-num {
+  width:26px; height:26px; border-radius:50%;
+  display:flex; align-items:center; justify-content:center;
+  font-size:11px; font-weight:800; flex-shrink:0; margin-top:2px;
+}
+.step-content { flex:1; }
+.step-title { font-size:13px; font-weight:700; color:#f1f5f9; margin-bottom:4px; }
+.step-desc  { font-size:12px; color:#64748b; margin-bottom:6px; }
+
+/* ── CODE BLOCK ── */
+.code {
+  background:#060a14; border:1px solid #1e293b; border-radius:8px;
+  padding:12px 16px; font-family:'Cascadia Code','Fira Code','Consolas',monospace;
+  font-size:12px; line-height:1.8; overflow-x:auto;
+  position:relative;
+}
+.code .comment { color:#334155; }
+.code .cmd     { color:#86efac; }
+.code .out     { color:#64748b; }
+.code .hl      { color:#fbbf24; }
+.code .str     { color:#f9a8d4; }
+.code .kw      { color:#93c5fd; }
+
+/* ── INFO BOXES ── */
+.info-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(240px,1fr)); gap:12px; margin-bottom:20px; }
+.info-box {
+  background:#0a0f1e; border-radius:8px; padding:14px 16px;
+  border:1px solid #1e293b;
+}
+.info-box .ib-title { font-size:11px; font-weight:800; letter-spacing:.8px; text-transform:uppercase; margin-bottom:8px; }
+.info-box .ib-body  { font-size:12px; color:#64748b; line-height:1.6; }
+.info-box .ib-body code { background:#131929; padding:1px 5px; border-radius:4px; color:#86efac; font-size:11px; }
+
+/* ── COMMAND TABLE ── */
+.cmd-table { width:100%; border-collapse:collapse; margin-bottom:16px; font-size:12px; }
+.cmd-table th { background:#0a0f1e; color:#64748b; font-size:10px; letter-spacing:.8px; text-transform:uppercase; padding:8px 12px; text-align:left; border-bottom:1px solid #1e293b; }
+.cmd-table td { padding:8px 12px; border-bottom:1px solid #0d1420; vertical-align:top; }
+.cmd-table td:first-child { font-family:monospace; color:#86efac; white-space:nowrap; }
+.cmd-table td:last-child  { color:#64748b; }
+.cmd-table tr:last-child td { border-bottom:none; }
+.cmd-table tr:hover td { background:#0a0f1e; }
+
+/* ── ALERT ── */
+.alert {
+  border-radius:8px; padding:12px 16px; font-size:12px;
+  margin-bottom:16px; display:flex; gap:10px; align-items:flex-start;
+}
+.alert-tip  { background:#042f2e; border:1px solid #065f46; color:#6ee7b7; }
+.alert-warn { background:#3b1a00; border:1px solid #92400e; color:#fcd34d; }
+.alert-info { background:#172554; border:1px solid #1e40af; color:#93c5fd; }
+.alert .al-ico { font-size:16px; flex-shrink:0; margin-top:1px; }
+.alert .al-txt { flex:1; line-height:1.6; }
+
+/* ── COLORS ── */
+.c-java    { background:#ea580c; color:#fff; }
+.c-maven   { background:#c2410c; color:#fff; }
+.c-spring  { background:#16a34a; color:#fff; }
+.c-mysql   { background:#0369a1; color:#fff; }
+.c-redis   { background:#dc2626; color:#fff; }
+.c-rabbit  { background:#d97706; color:#fff; }
+.c-docker  { background:#0284c7; color:#fff; }
+.c-git     { background:#7c3aed; color:#fff; }
+.c-jwt     { background:#0f766e; color:#fff; }
+.c-lombok  { background:#be185d; color:#fff; }
+.c-ws      { background:#1d4ed8; color:#fff; }
+.c-zxing   { background:#334155; color:#fff; }
+.c-poi     { background:#1e3a5f; color:#fff; }
+.c-postman { background:#c2410c; color:#fff; }
+
+.sep { height:1px; background:#0d1420; margin:20px 0; }
+
+@media (max-width:768px) {
+  .sidebar { display:none; }
+  .main { margin-left:0; padding:24px 16px 60px; }
+}
+</style>
+</head>
+<body>
+
+<!-- ══ SIDEBAR ══════════════════════════════════════════════ -->
+<div class="layout">
+<nav class="sidebar">
+  <div class="sidebar-title">EventPass — Tecnologias</div>
+  <a href="#java" class="active"><span class="si">☕</span> Java 21</a>
+  <a href="#maven"><span class="si">📦</span> Maven</a>
+  <a href="#springboot"><span class="si">🍃</span> Spring Boot</a>
+  <a href="#mysql"><span class="si">🐬</span> MySQL</a>
+  <a href="#redis"><span class="si">⚡</span> Redis</a>
+  <a href="#rabbitmq"><span class="si">🐰</span> RabbitMQ</a>
+  <a href="#docker"><span class="si">🐳</span> Docker</a>
+  <a href="#git"><span class="si">🔀</span> Git</a>
+  <a href="#jwt"><span class="si">🔑</span> JWT</a>
+  <a href="#lombok"><span class="si">🔧</span> Lombok</a>
+  <a href="#websocket"><span class="si">📡</span> WebSocket</a>
+  <a href="#zxing"><span class="si">🔲</span> ZXing</a>
+  <a href="#poi"><span class="si">📊</span> Apache POI</a>
+  <a href="#postman"><span class="si">🧪</span> Postman</a>
+</nav>
+
+<!-- ══ MAIN ═════════════════════════════════════════════════ -->
+<main class="main">
+<h1>📚 Tutorial de Tecnologias</h1>
+<p class="intro-sub">Tudo que você precisa saber sobre cada tecnologia usada no EventPass — o que é, para que serve, como instalar e comandos básicos.</p>
+
+
+<!-- ════════════════════════════════════
+     JAVA
+════════════════════════════════════ -->
+<div class="tech-section" id="java">
+  <div class="tech-header" style="background:#1a0a00; border-color:#c2410c;">
+    <span class="th-ico">☕</span>
+    <div class="th-info">
+      <div class="th-name">Java 21</div>
+      <div class="th-sub">Linguagem de programação principal do backend</div>
+    </div>
+    <span class="th-ver c-java">LTS 21</span>
+  </div>
+  <div class="tech-body" style="border-color:#c2410c;">
+    <div class="what-is">
+      <strong>O que é:</strong> Java é uma linguagem de programação orientada a objetos criada pela Sun Microsystems (hoje Oracle) em 1995. É compilada para <strong>bytecode</strong> que roda na JVM (Java Virtual Machine) — isso significa que o mesmo código funciona em qualquer sistema operacional que tenha a JVM instalada.<br><br>
+      <strong>Por que no EventPass:</strong> É a linguagem do Spring Boot. Java 21 traz <strong>Records</strong> (usados nos nossos DTOs), <strong>Pattern Matching</strong> e melhorias de performance significativas.
+    </div>
+
+    <div class="steps">
+      <div class="step-item">
+        <div class="step-num c-java">1</div>
+        <div class="step-content">
+          <div class="step-title">Instalar Java 21 (JDK)</div>
+          <div class="step-desc">Baixe o Temurin (distribuição gratuita do OpenJDK) em <strong>adoptium.net</strong> ou use SDKMAN no Linux/Mac:</div>
+          <div class="code">
+<span class="comment"># Linux/Mac — via SDKMAN (recomendado)</span>
+<span class="cmd">curl -s "https://get.sdkman.io" | bash</span>
+<span class="cmd">sdk install java 21.0.3-tem</span>
+
+<span class="comment"># Windows — baixar o instalador em:</span>
+<span class="hl">https://adoptium.net/temurin/releases/?version=21</span>
+          </div>
+        </div>
+      </div>
+      <div class="step-item">
+        <div class="step-num c-java">2</div>
+        <div class="step-content">
+          <div class="step-title">Verificar instalação</div>
+          <div class="code">
+<span class="cmd">java -version</span>
+<span class="out">openjdk version "21.0.3" 2024-04-16</span>
+
+<span class="cmd">javac -version</span>
+<span class="out">javac 21.0.3</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <table class="cmd-table">
+      <tr><th>Conceito</th><th>Descrição</th></tr>
+      <tr><td>JDK</td><td>Java Development Kit — para desenvolver (compila e roda)</td></tr>
+      <tr><td>JRE</td><td>Java Runtime Environment — só para rodar (não compila)</td></tr>
+      <tr><td>JVM</td><td>Máquina virtual que executa o bytecode Java</td></tr>
+      <tr><td>.java</td><td>Arquivo de código-fonte</td></tr>
+      <tr><td>.class</td><td>Bytecode compilado</td></tr>
+      <tr><td>.jar</td><td>Pacote de classes (nosso app vira um .jar executável)</td></tr>
+    </table>
+  </div>
+</div>
+
+
+<!-- ════════════════════════════════════
+     MAVEN
+════════════════════════════════════ -->
+<div class="tech-section" id="maven">
+  <div class="tech-header" style="background:#1a0800; border-color:#ea580c;">
+    <span class="th-ico">📦</span>
+    <div class="th-info">
+      <div class="th-name">Maven</div>
+      <div class="th-sub">Gerenciador de dependências e build</div>
+    </div>
+    <span class="th-ver c-maven">3.9+</span>
+  </div>
+  <div class="tech-body" style="border-color:#ea580c;">
+    <div class="what-is">
+      <strong>O que é:</strong> Maven é uma ferramenta que automatiza o processo de build de projetos Java. Ele baixa automaticamente as bibliotecas que seu projeto precisa da internet (Maven Central Repository), compila o código, roda os testes e empacota tudo em um JAR.<br><br>
+      <strong>Por que no EventPass:</strong> Define todas as bibliotecas usadas (Spring Boot, ZXing, Apache POI...) no arquivo <strong>pom.xml</strong>. Sem Maven, você teria que baixar cada JAR manualmente e colocar no classpath.
+    </div>
+
+    <div class="info-grid">
+      <div class="info-box">
+        <div class="ib-title" style="color:#fb923c;">pom.xml</div>
+        <div class="ib-body">Arquivo principal do Maven. Define o projeto, suas dependências (bibliotecas), plugins e como compilar. É o "coração" da configuração do projeto.</div>
+      </div>
+      <div class="info-box">
+        <div class="ib-title" style="color:#fb923c;">Repositório Central</div>
+        <div class="ib-body">Servidor público com milhares de bibliotecas Java. Maven baixa automaticamente o que você declarar no pom.xml em <code>~/.m2/repository</code>.</div>
+      </div>
+      <div class="info-box">
+        <div class="ib-title" style="color:#fb923c;">mvnw</div>
+        <div class="ib-body">Maven Wrapper — script incluído no projeto que baixa a versão correta do Maven automaticamente. Não precisa instalar o Maven globalmente.</div>
+      </div>
+    </div>
+
+    <div class="steps">
+      <div class="step-item">
+        <div class="step-num c-maven">1</div>
+        <div class="step-content">
+          <div class="step-title">Instalar Maven (opcional — o projeto já tem o mvnw)</div>
+          <div class="code">
+<span class="comment"># Linux/Mac via SDKMAN</span>
+<span class="cmd">sdk install maven 3.9.6</span>
+
+<span class="comment"># Windows — baixar em maven.apache.org e adicionar ao PATH</span>
+
+<span class="comment"># Verificar</span>
+<span class="cmd">mvn -version</span>
+<span class="out">Apache Maven 3.9.6</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <table class="cmd-table">
+      <tr><th>Comando</th><th>O que faz</th></tr>
+      <tr><td>mvn compile</td><td>Compila o código-fonte (.java → .class)</td></tr>
+      <tr><td>mvn test</td><td>Roda todos os testes unitários</td></tr>
+      <tr><td>mvn package</td><td>Compila + testa + gera o JAR em /target</td></tr>
+      <tr><td>mvn package -DskipTests</td><td>Gera o JAR pulando os testes</td></tr>
+      <tr><td>mvn spring-boot:run</td><td>Compila e sobe a aplicação Spring Boot</td></tr>
+      <tr><td>mvn clean</td><td>Apaga a pasta /target (arquivos compilados)</td></tr>
+      <tr><td>mvn clean install</td><td>Limpa, compila, testa e instala no repositório local</td></tr>
+      <tr><td>mvn dependency:tree</td><td>Mostra todas as dependências do projeto em árvore</td></tr>
+      <tr><td>./mvnw ...</td><td>Mesmos comandos mas usando o wrapper do projeto</td></tr>
+    </table>
+
+    <div class="code">
+<span class="comment"># Estrutura do pom.xml — resumo do que declaramos</span>
+&lt;<span class="kw">dependency</span>&gt;
+  &lt;<span class="kw">groupId</span>&gt;<span class="str">org.springframework.boot</span>&lt;/<span class="kw">groupId</span>&gt;
+  &lt;<span class="kw">artifactId</span>&gt;<span class="str">spring-boot-starter-web</span>&lt;/<span class="kw">artifactId</span>&gt;
+  <span class="comment">&lt;!-- versão gerenciada pelo parent, não precisa declarar --&gt;</span>
+&lt;/<span class="kw">dependency</span>&gt;
+
+<span class="comment"># Maven baixa, armazena em ~/.m2 e coloca no classpath automaticamente</span>
+    </div>
+  </div>
+</div>
+
+
+<!-- ════════════════════════════════════
+     SPRING BOOT
+════════════════════════════════════ -->
+<div class="tech-section" id="springboot">
+  <div class="tech-header" style="background:#011a0a; border-color:#16a34a;">
+    <span class="th-ico">🍃</span>
+    <div class="th-info">
+      <div class="th-name">Spring Boot</div>
+      <div class="th-sub">Framework principal — o esqueleto do backend</div>
+    </div>
+    <span class="th-ver c-spring">3.2.5</span>
+  </div>
+  <div class="tech-body" style="border-color:#16a34a;">
+    <div class="what-is">
+      <strong>O que é:</strong> Spring Boot é um framework Java que simplifica drasticamente a criação de aplicações. Ele configura automaticamente tudo que precisa com base nas dependências que você adiciona — você sobe um servidor web completo com um único comando.<br><br>
+      <strong>Por que no EventPass:</strong> É o framework mais usado no mundo empresarial Java. Fornece o servidor HTTP (Tomcat embutido), injeção de dependência, ORM (JPA/Hibernate), segurança (Spring Security) e dezenas de integrações prontas.
+    </div>
+
+    <div class="info-grid">
+      <div class="info-box">
+        <div class="ib-title" style="color:#34d399;">Injeção de Dependência</div>
+        <div class="ib-body">O Spring cria e gerencia os objetos (beans) automaticamente. Você declara o que precisa com <code>@Autowired</code> ou construtor — o Spring injeta sozinho.</div>
+      </div>
+      <div class="info-box">
+        <div class="ib-title" style="color:#34d399;">Auto-configuração</div>
+        <div class="ib-body">Adicionou o starter do MySQL no pom.xml? Spring já configura o DataSource. Adicionou Security? Já protege as rotas. Zero XML de configuração.</div>
+      </div>
+      <div class="info-box">
+        <div class="ib-title" style="color:#34d399;">Starters</div>
+        <div class="ib-body">Pacotes que agrupam dependências relacionadas: <code>spring-boot-starter-web</code> já inclui Tomcat + Jackson + Spring MVC com uma única linha.</div>
+      </div>
+    </div>
+
+    <table class="cmd-table">
+      <tr><th>Comando</th><th>O que faz</th></tr>
+      <tr><td>mvn spring-boot:run</td><td>Sobe a aplicação em modo desenvolvimento</td></tr>
+      <tr><td>mvn spring-boot:run -Dspring-boot.run.profiles=dev</td><td>Sobe com perfil dev</td></tr>
+      <tr><td>java -jar target/eventpass-1.0.0.jar</td><td>Roda o JAR gerado (produção)</td></tr>
+      <tr><td>mvn spring-boot:run --debug</td><td>Sobe com logs de debug</td></tr>
+    </table>
+
+    <div class="alert alert-tip">
+      <span class="al-ico">💡</span>
+      <span class="al-txt">Acesse <strong>http://localhost:8080/api/actuator/health</strong> após subir a aplicação. Se retornar <code>{"status":"UP"}</code>, tudo está funcionando.</span>
+    </div>
+  </div>
+</div>
+
+
+<!-- ════════════════════════════════════
+     MYSQL
+════════════════════════════════════ -->
+<div class="tech-section" id="mysql">
+  <div class="tech-header" style="background:#00111a; border-color:#0369a1;">
+    <span class="th-ico">🐬</span>
+    <div class="th-info">
+      <div class="th-name">MySQL</div>
+      <div class="th-sub">Banco de dados relacional — persiste todos os dados</div>
+    </div>
+    <span class="th-ver c-mysql">8.0</span>
+  </div>
+  <div class="tech-body" style="border-color:#0369a1;">
+    <div class="what-is">
+      <strong>O que é:</strong> MySQL é um sistema de gerenciamento de banco de dados relacional (SGBD) open-source. Os dados são organizados em tabelas com linhas e colunas, relacionadas entre si por chaves primárias e estrangeiras. A linguagem de consulta é o SQL.<br><br>
+      <strong>Por que no EventPass:</strong> Armazena todos os dados persistentes: clientes, eventos, convidados, entradas, dispositivos. É o banco mais popular do Brasil e tem excelente suporte no ecossistema Java/Spring.
+    </div>
+
+    <div class="steps">
+      <div class="step-item">
+        <div class="step-num c-mysql">1</div>
+        <div class="step-content">
+          <div class="step-title">Instalar MySQL (ou usar Docker — recomendado)</div>
+          <div class="code">
+<span class="comment"># Via Docker (mais simples — não instala nada no sistema)</span>
+<span class="cmd">docker run -d \
+  --name eventpass-mysql \
+  -e MYSQL_ROOT_PASSWORD=root \
+  -e MYSQL_DATABASE=eventpass \
+  -p 3306:3306 \
+  mysql:8.0</span>
+
+<span class="comment"># Ou via docker-compose (já configurado no projeto)</span>
+<span class="cmd">docker-compose up -d mysql</span>
+          </div>
+        </div>
+      </div>
+      <div class="step-item">
+        <div class="step-num c-mysql">2</div>
+        <div class="step-content">
+          <div class="step-title">Acessar o MySQL via terminal</div>
+          <div class="code">
+<span class="comment"># Acessar o container Docker</span>
+<span class="cmd">docker exec -it eventpass-mysql mysql -u root -p</span>
+<span class="comment"># Senha: root</span>
+
+<span class="comment"># Ou instalar o cliente MySQL no sistema e acessar</span>
+<span class="cmd">mysql -h localhost -P 3306 -u root -p</span>
+          </div>
+        </div>
+      </div>
+      <div class="step-item">
+        <div class="step-num c-mysql">3</div>
+        <div class="step-content">
+          <div class="step-title">Executar o script DDL do projeto</div>
+          <div class="code">
+<span class="comment"># Dentro do MySQL</span>
+<span class="cmd">source /caminho/para/eventpass-ddl.sql;</span>
+
+<span class="comment"># Ou pelo terminal externo</span>
+<span class="cmd">mysql -u root -p eventpass &lt; src/main/resources/db/eventpass-ddl.sql</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <table class="cmd-table">
+      <tr><th>Comando SQL</th><th>O que faz</th></tr>
+      <tr><td>SHOW DATABASES;</td><td>Lista todos os bancos de dados</td></tr>
+      <tr><td>USE eventpass;</td><td>Seleciona o banco para usar</td></tr>
+      <tr><td>SHOW TABLES;</td><td>Lista todas as tabelas</td></tr>
+      <tr><td>DESCRIBE clientes;</td><td>Mostra a estrutura da tabela clientes</td></tr>
+      <tr><td>SELECT * FROM clientes;</td><td>Busca todos os registros de clientes</td></tr>
+      <tr><td>SELECT * FROM eventos WHERE cliente_id = 2;</td><td>Filtra eventos do cliente 2</td></tr>
+      <tr><td>SELECT * FROM entradas ORDER BY registrado_em DESC LIMIT 10;</td><td>Últimas 10 entradas</td></tr>
+    </table>
+
+    <div class="alert alert-info">
+      <span class="al-ico">🔧</span>
+      <span class="al-txt">Para uma interface visual, instale o <strong>DBeaver</strong> (gratuito) ou o <strong>MySQL Workbench</strong>. Muito mais fácil que usar o terminal para visualizar e editar dados durante o desenvolvimento.</span>
+    </div>
+  </div>
+</div>
+
+
+<!-- ════════════════════════════════════
+     REDIS
+════════════════════════════════════ -->
+<div class="tech-section" id="redis">
+  <div class="tech-header" style="background:#1a0000; border-color:#dc2626;">
+    <span class="th-ico">⚡</span>
+    <div class="th-info">
+      <div class="th-name">Redis</div>
+      <div class="th-sub">Banco de dados em memória — cache e dados temporários</div>
+    </div>
+    <span class="th-ver c-redis">7.x</span>
+  </div>
+  <div class="tech-body" style="border-color:#dc2626;">
+    <div class="what-is">
+      <strong>O que é:</strong> Redis (Remote Dictionary Server) é um banco de dados que armazena dados na memória RAM, tornando-o extremamente rápido — opera em microssegundos. Trabalha com estruturas chave-valor simples. Os dados podem ser voláteis (somem ao reiniciar) ou persistidos em disco.<br><br>
+      <strong>Por que no EventPass:</strong> Armazena os códigos OTP temporários (expiram em 5 minutos), faz cache de consultas frequentes evitando sobrecarga no MySQL, e serve como backend para filas de notificações assíncronas.
+    </div>
+
+    <div class="steps">
+      <div class="step-item">
+        <div class="step-num c-redis">1</div>
+        <div class="step-content">
+          <div class="step-title">Instalar e rodar via Docker</div>
+          <div class="code">
+<span class="comment"># Subir Redis com Docker</span>
+<span class="cmd">docker run -d \
+  --name eventpass-redis \
+  -p 6379:6379 \
+  redis:7-alpine</span>
+
+<span class="comment"># Ou via docker-compose do projeto</span>
+<span class="cmd">docker-compose up -d redis</span>
+          </div>
+        </div>
+      </div>
+      <div class="step-item">
+        <div class="step-num c-redis">2</div>
+        <div class="step-content">
+          <div class="step-title">Acessar o Redis CLI</div>
+          <div class="code">
+<span class="comment"># Entrar no container</span>
+<span class="cmd">docker exec -it eventpass-redis redis-cli</span>
+
+<span class="comment"># Testar conexão</span>
+<span class="cmd">PING</span>
+<span class="out">PONG</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <table class="cmd-table">
+      <tr><th>Comando Redis</th><th>O que faz</th></tr>
+      <tr><td>SET chave "valor"</td><td>Grava um valor</td></tr>
+      <tr><td>GET chave</td><td>Recupera um valor</td></tr>
+      <tr><td>SET chave "valor" EX 300</td><td>Grava com expiração de 300 segundos</td></tr>
+      <tr><td>TTL chave</td><td>Tempo restante de vida da chave (segundos)</td></tr>
+      <tr><td>DEL chave</td><td>Remove uma chave</td></tr>
+      <tr><td>KEYS *</td><td>Lista todas as chaves (cuidado em produção!)</td></tr>
+      <tr><td>FLUSHDB</td><td>Apaga todos os dados do banco atual</td></tr>
+      <tr><td>INFO memory</td><td>Mostra uso de memória</td></tr>
+    </table>
+  </div>
+</div>
+
+
+<!-- ════════════════════════════════════
+     RABBITMQ
+════════════════════════════════════ -->
+<div class="tech-section" id="rabbitmq">
+  <div class="tech-header" style="background:#1a0d00; border-color:#d97706;">
+    <span class="th-ico">🐰</span>
+    <div class="th-info">
+      <div class="th-name">RabbitMQ</div>
+      <div class="th-sub">Message Broker — fila de mensagens assíncronas</div>
+    </div>
+    <span class="th-ver c-rabbit">3.x</span>
+  </div>
+  <div class="tech-body" style="border-color:#d97706;">
+    <div class="what-is">
+      <strong>O que é:</strong> RabbitMQ é um message broker — um intermediário que recebe mensagens de um produtor e as entrega a um consumidor. Funciona como uma fila de tarefas: o produtor coloca a tarefa na fila e segue em frente sem esperar. O consumidor processa na sua velocidade.<br><br>
+      <strong>Por que no EventPass:</strong> Quando o admin dispara 500 convites de uma vez, a requisição não pode ficar bloqueada por minutos esperando todos os WhatsApps serem enviados. O sistema coloca as mensagens na fila do RabbitMQ e retorna imediatamente. O worker processa o envio em background.
+    </div>
+
+    <div class="info-grid">
+      <div class="info-box">
+        <div class="ib-title" style="color:#fbbf24;">Producer</div>
+        <div class="ib-body">Quem envia a mensagem para a fila. No EventPass: o <code>ConvidadoService</code> quando dispara os convites.</div>
+      </div>
+      <div class="info-box">
+        <div class="ib-title" style="color:#fbbf24;">Queue</div>
+        <div class="ib-body">A fila em si. Armazena as mensagens até alguém consumi-las. Configurada como <code>notificacoes.queue</code>.</div>
+      </div>
+      <div class="info-box">
+        <div class="ib-title" style="color:#fbbf24;">Consumer</div>
+        <div class="ib-body">Quem processa as mensagens da fila. No EventPass: o <code>NotificacaoService</code> que chama a Z-API.</div>
+      </div>
+      <div class="info-box">
+        <div class="ib-title" style="color:#fbbf24;">DLQ (Dead Letter Queue)</div>
+        <div class="ib-body">Fila especial para mensagens que falharam. Evita perda de dados — mensagens com erro ficam aqui para reprocessamento.</div>
+      </div>
+    </div>
+
+    <div class="steps">
+      <div class="step-item">
+        <div class="step-num c-rabbit">1</div>
+        <div class="step-content">
+          <div class="step-title">Instalar e rodar via Docker</div>
+          <div class="code">
+<span class="comment"># Com painel de administração web</span>
+<span class="cmd">docker run -d \
+  --name eventpass-rabbitmq \
+  -e RABBITMQ_DEFAULT_USER=guest \
+  -e RABBITMQ_DEFAULT_PASS=guest \
+  -p 5672:5672 \
+  -p 15672:15672 \
+  rabbitmq:3-management-alpine</span>
+          </div>
+        </div>
+      </div>
+      <div class="step-item">
+        <div class="step-num c-rabbit">2</div>
+        <div class="step-content">
+          <div class="step-title">Acessar o painel web de administração</div>
+          <div class="code">
+<span class="comment"># Abra no navegador:</span>
+<span class="hl">http://localhost:15672</span>
+
+<span class="comment"># Login: guest / Senha: guest</span>
+<span class="comment"># Aqui você vê filas, mensagens pendentes, consumers ativos</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="alert alert-tip">
+      <span class="al-ico">💡</span>
+      <span class="al-txt">O painel web do RabbitMQ em <strong>localhost:15672</strong> é muito útil durante o desenvolvimento. Você vê em tempo real quantas mensagens estão na fila e se os consumers estão processando.</span>
+    </div>
+  </div>
+</div>
+
+
+<!-- ════════════════════════════════════
+     DOCKER
+════════════════════════════════════ -->
+<div class="tech-section" id="docker">
+  <div class="tech-header" style="background:#00101a; border-color:#0284c7;">
+    <span class="th-ico">🐳</span>
+    <div class="th-info">
+      <div class="th-name">Docker & Docker Compose</div>
+      <div class="th-sub">Containerização — ambiente padronizado para todos</div>
+    </div>
+    <span class="th-ver c-docker">Latest</span>
+  </div>
+  <div class="tech-body" style="border-color:#0284c7;">
+    <div class="what-is">
+      <strong>O que é:</strong> Docker empacota uma aplicação com todas as suas dependências em um <strong>container</strong> — uma unidade isolada que funciona igual em qualquer máquina. Docker Compose orquestra múltiplos containers com um único comando.<br><br>
+      <strong>Por que no EventPass:</strong> Sobe MySQL, Redis e RabbitMQ com um único <code>docker-compose up</code>, sem instalar nada no seu sistema. Garante que o ambiente de desenvolvimento seja idêntico para todos os desenvolvedores e para a produção.
+    </div>
+
+    <div class="steps">
+      <div class="step-item">
+        <div class="step-num c-docker">1</div>
+        <div class="step-content">
+          <div class="step-title">Instalar Docker Desktop</div>
+          <div class="code">
+<span class="comment"># Baixe em:</span>
+<span class="hl">https://www.docker.com/products/docker-desktop</span>
+
+<span class="comment"># Inclui Docker + Docker Compose automaticamente</span>
+<span class="comment"># Disponível para Windows, Mac e Linux</span>
+
+<span class="comment"># Verificar instalação</span>
+<span class="cmd">docker --version</span>
+<span class="out">Docker version 26.1.0</span>
+<span class="cmd">docker compose version</span>
+<span class="out">Docker Compose version v2.27.0</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <table class="cmd-table">
+      <tr><th>Comando Docker</th><th>O que faz</th></tr>
+      <tr><td>docker ps</td><td>Lista containers em execução</td></tr>
+      <tr><td>docker ps -a</td><td>Lista todos (incluindo parados)</td></tr>
+      <tr><td>docker start nome</td><td>Inicia um container parado</td></tr>
+      <tr><td>docker stop nome</td><td>Para um container</td></tr>
+      <tr><td>docker logs -f nome</td><td>Acompanha os logs em tempo real</td></tr>
+      <tr><td>docker exec -it nome bash</td><td>Abre terminal dentro do container</td></tr>
+      <tr><td>docker rm nome</td><td>Remove um container parado</td></tr>
+      <tr><td>docker images</td><td>Lista imagens baixadas</td></tr>
+    </table>
+
+    <table class="cmd-table">
+      <tr><th>Comando Docker Compose</th><th>O que faz</th></tr>
+      <tr><td>docker-compose up -d</td><td>Sobe todos os serviços em background</td></tr>
+      <tr><td>docker-compose up -d mysql redis</td><td>Sobe só MySQL e Redis</td></tr>
+      <tr><td>docker-compose down</td><td>Para e remove todos os containers</td></tr>
+      <tr><td>docker-compose down -v</td><td>Para, remove containers E volumes (apaga dados!)</td></tr>
+      <tr><td>docker-compose logs -f</td><td>Acompanha logs de todos os serviços</td></tr>
+      <tr><td>docker-compose ps</td><td>Status de todos os serviços</td></tr>
+      <tr><td>docker-compose restart mysql</td><td>Reinicia o serviço MySQL</td></tr>
+      <tr><td>docker-compose build</td><td>Reconstrói as imagens</td></tr>
+    </table>
+
+    <div class="alert alert-warn">
+      <span class="al-ico">⚠️</span>
+      <span class="al-txt"><code>docker-compose down -v</code> apaga os volumes — todos os dados do MySQL serão perdidos. Use apenas quando quiser resetar o ambiente completamente.</span>
+    </div>
+  </div>
+</div>
+
+
+<!-- ════════════════════════════════════
+     GIT
+════════════════════════════════════ -->
+<div class="tech-section" id="git">
+  <div class="tech-header" style="background:#0f0a1a; border-color:#7c3aed;">
+    <span class="th-ico">🔀</span>
+    <div class="th-info">
+      <div class="th-name">Git</div>
+      <div class="th-sub">Controle de versão — histórico de tudo que foi feito</div>
+    </div>
+    <span class="th-ver c-git">2.x</span>
+  </div>
+  <div class="tech-body" style="border-color:#7c3aed;">
+    <div class="what-is">
+      <strong>O que é:</strong> Git é um sistema de controle de versão distribuído. Registra todas as alterações feitas no código ao longo do tempo, permitindo voltar a versões anteriores, trabalhar em paralelo com branches e colaborar com outros desenvolvedores.<br><br>
+      <strong>Por que no EventPass:</strong> Essencial para qualquer projeto de software. Permite salvar o progresso, criar versões (tags) para cada release e colaborar sem sobrescrever o trabalho um do outro.
+    </div>
+
+    <table class="cmd-table">
+      <tr><th>Comando Git</th><th>O que faz</th></tr>
+      <tr><td>git init</td><td>Inicializa repositório Git na pasta atual</td></tr>
+      <tr><td>git status</td><td>Mostra arquivos modificados/novos</td></tr>
+      <tr><td>git add .</td><td>Adiciona todos os arquivos para o próximo commit</td></tr>
+      <tr><td>git add arquivo.java</td><td>Adiciona um arquivo específico</td></tr>
+      <tr><td>git commit -m "mensagem"</td><td>Salva o estado atual com uma mensagem</td></tr>
+      <tr><td>git log --oneline</td><td>Histórico resumido de commits</td></tr>
+      <tr><td>git branch nome</td><td>Cria uma nova branch</td></tr>
+      <tr><td>git checkout nome</td><td>Muda para a branch especificada</td></tr>
+      <tr><td>git merge nome</td><td>Mescla a branch especificada na atual</td></tr>
+      <tr><td>git push origin main</td><td>Envia commits para o repositório remoto</td></tr>
+      <tr><td>git pull</td><td>Baixa e mescla alterações do remoto</td></tr>
+      <tr><td>git clone url</td><td>Clona um repositório remoto</td></tr>
+      <tr><td>git stash</td><td>Salva alterações temporariamente sem commitar</td></tr>
+      <tr><td>git stash pop</td><td>Recupera as alterações salvas com stash</td></tr>
+    </table>
+
+    <div class="alert alert-warn">
+      <span class="al-ico">⚠️</span>
+      <span class="al-txt">Nunca commite o arquivo <strong>.env</strong> — ele contém senhas e tokens. O projeto já tem um <strong>.gitignore</strong> configurado para ignorá-lo. Commite apenas o <strong>.env.example</strong>.</span>
+    </div>
+  </div>
+</div>
+
+
+<!-- ════════════════════════════════════
+     JWT
+════════════════════════════════════ -->
+<div class="tech-section" id="jwt">
+  <div class="tech-header" style="background:#001a18; border-color:#0f766e;">
+    <span class="th-ico">🔑</span>
+    <div class="th-info">
+      <div class="th-name">JWT — JSON Web Token</div>
+      <div class="th-sub">Autenticação stateless — identifica quem está logado</div>
+    </div>
+    <span class="th-ver c-jwt">JJWT 0.12</span>
+  </div>
+  <div class="tech-body" style="border-color:#0f766e;">
+    <div class="what-is">
+      <strong>O que é:</strong> JWT é um padrão para transmitir informações de forma segura entre sistemas como um token compacto e autocontido. O token é assinado digitalmente — qualquer alteração invalida a assinatura.<br><br>
+      <strong>Por que no EventPass:</strong> Após o login, o servidor gera um JWT com o ID do cliente e retorna ao Postman/app. Nas próximas requisições, o cliente envia o JWT no header — o servidor verifica a assinatura e extrai o ID sem precisar consultar o banco.
+    </div>
+
+    <div class="what-is">
+      <strong>Estrutura do token</strong> — 3 partes separadas por ponto:<br><br>
+      <code style="color:#fb923c;">eyJhbGciOiJIUzI1NiJ9</code> ← <strong>Header</strong> (algoritmo)<br>
+      <code style="color:#86efac;">eyJzdWIiOiIyIiwiZW1haWwiOiJ0ZXN0ZUB0ZXN0ZS5jb20ifQ</code> ← <strong>Payload</strong> (dados)<br>
+      <code style="color:#93c5fd;">SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c</code> ← <strong>Signature</strong> (assinatura)
+    </div>
+
+    <div class="code">
+<span class="comment"># Payload decodificado (visível em jwt.io):</span>
+{
+  <span class="hl">"sub"</span>: <span class="str">"2"</span>,          <span class="comment">← ID do cliente logado</span>
+  <span class="hl">"email"</span>: <span class="str">"joao@teste.com"</span>,
+  <span class="hl">"tipo"</span>: <span class="str">"usuario"</span>,
+  <span class="hl">"iat"</span>: 1718200000,   <span class="comment">← issued at (quando foi gerado)</span>
+  <span class="hl">"exp"</span>: 1718286400    <span class="comment">← expiration (quando expira)</span>
+}
+
+<span class="comment"># Como usar no Postman / curl:</span>
+Authorization: Bearer eyJhbGci...
+    </div>
+
+    <div class="alert alert-tip">
+      <span class="al-ico">💡</span>
+      <span class="al-txt">Cole qualquer token em <strong>jwt.io</strong> para decodificar e ver o payload. Muito útil para debugar quando o clienteId retornado não é o esperado.</span>
+    </div>
+  </div>
+</div>
+
+
+<!-- ════════════════════════════════════
+     LOMBOK
+════════════════════════════════════ -->
+<div class="tech-section" id="lombok">
+  <div class="tech-header" style="background:#1a0010; border-color:#be185d;">
+    <span class="th-ico">🔧</span>
+    <div class="th-info">
+      <div class="th-name">Lombok</div>
+      <div class="th-sub">Elimina código repetitivo com anotações</div>
+    </div>
+    <span class="th-ver c-lombok">1.18+</span>
+  </div>
+  <div class="tech-body" style="border-color:#be185d;">
+    <div class="what-is">
+      <strong>O que é:</strong> Lombok é uma biblioteca que usa anotações Java para gerar automaticamente código repetitivo em tempo de compilação — getters, setters, construtores, equals, hashCode, toString, builders.<br><br>
+      <strong>Por que no EventPass:</strong> Sem Lombok, cada entidade teria dezenas de linhas de getters/setters repetitivos. Com Lombok, uma anotação como <code>@Getter @Setter @Builder</code> gera tudo automaticamente.
+    </div>
+
+    <table class="cmd-table">
+      <tr><th>Anotação</th><th>O que gera</th></tr>
+      <tr><td>@Getter</td><td>Método get para todos os campos da classe</td></tr>
+      <tr><td>@Setter</td><td>Método set para todos os campos da classe</td></tr>
+      <tr><td>@NoArgsConstructor</td><td>Construtor sem argumentos</td></tr>
+      <tr><td>@AllArgsConstructor</td><td>Construtor com todos os campos</td></tr>
+      <tr><td>@RequiredArgsConstructor</td><td>Construtor com campos final (usado com injeção de dependência)</td></tr>
+      <tr><td>@Builder</td><td>Padrão Builder — ex: Cliente.builder().nome("João").build()</td></tr>
+      <tr><td>@Data</td><td>Atalho: @Getter + @Setter + @ToString + @EqualsAndHashCode</td></tr>
+      <tr><td>@Slf4j</td><td>Cria variável log automaticamente para usar no método</td></tr>
+    </table>
+
+    <div class="alert alert-warn">
+      <span class="al-ico">⚠️</span>
+      <span class="al-txt">Para o Lombok funcionar na IDE, instale o plugin <strong>Lombok</strong> no IntelliJ IDEA (File → Settings → Plugins → buscar "Lombok"). Sem o plugin, a IDE vai reclamar de métodos inexistentes.</span>
+    </div>
+  </div>
+</div>
+
+
+<!-- ════════════════════════════════════
+     WEBSOCKET
+════════════════════════════════════ -->
+<div class="tech-section" id="websocket">
+  <div class="tech-header" style="background:#00091a; border-color:#1d4ed8;">
+    <span class="th-ico">📡</span>
+    <div class="th-info">
+      <div class="th-name">WebSocket / STOMP</div>
+      <div class="th-sub">Comunicação em tempo real — dashboard ao vivo</div>
+    </div>
+    <span class="th-ver c-ws">Spring WS</span>
+  </div>
+  <div class="tech-body" style="border-color:#1d4ed8;">
+    <div class="what-is">
+      <strong>O que é:</strong> WebSocket é um protocolo de comunicação bidirecional e persistente entre cliente e servidor. Diferente do HTTP (o cliente sempre pede, o servidor responde), no WebSocket o servidor pode enviar dados ao cliente a qualquer momento sem que ele peça.<br><br>
+      <strong>STOMP</strong> (Simple Text Oriented Messaging Protocol) é um protocolo de mensagens que roda sobre WebSocket, adicionando conceitos de tópicos e filas.<br><br>
+      <strong>Por que no EventPass:</strong> O dashboard do admin atualiza automaticamente quando uma entrada é registrada na portaria — sem precisar ficar atualizando a página.
+    </div>
+
+    <div class="code">
+<span class="comment">// Como o painel web se conecta (JavaScript)</span>
+<span class="kw">const</span> socket = <span class="kw">new</span> SockJS(<span class="str">'http://localhost:8080/api/ws'</span>);
+<span class="kw">const</span> stomp = Stomp.over(socket);
+
+stomp.connect({ <span class="str">Authorization</span>: <span class="str">'Bearer '</span> + token }, () => {
+
+  <span class="comment">// Assina o tópico do evento 2</span>
+  stomp.subscribe(<span class="str">'/topic/evento/2/entradas'</span>, (msg) => {
+    <span class="kw">const</span> entrada = JSON.parse(msg.body);
+    <span class="comment">// { convidadoNome, status, acompanhantes, horario }</span>
+    atualizarDashboard(entrada);  <span class="comment">// atualiza a tela em tempo real</span>
+  });
+});
+
+<span class="comment">// Quando a portaria registra uma entrada — servidor envia para o tópico:</span>
+<span class="comment">// websocket.convertAndSend("/topic/evento/2/entradas", dadosEntrada);</span>
+    </div>
+  </div>
+</div>
+
+
+<!-- ════════════════════════════════════
+     ZXING
+════════════════════════════════════ -->
+<div class="tech-section" id="zxing">
+  <div class="tech-header" style="background:#0d1117; border-color:#334155;">
+    <span class="th-ico">🔲</span>
+    <div class="th-info">
+      <div class="th-name">ZXing (Zebra Crossing)</div>
+      <div class="th-sub">Geração de QR Codes em imagem PNG</div>
+    </div>
+    <span class="th-ver c-zxing">3.5.3</span>
+  </div>
+  <div class="tech-body" style="border-color:#334155;">
+    <div class="what-is">
+      <strong>O que é:</strong> ZXing é uma biblioteca open-source do Google para leitura e geração de códigos de barras e QR Codes em Java. Suporta dezenas de formatos (QR Code, EAN-13, Code 128, etc.).<br><br>
+      <strong>Por que no EventPass:</strong> Gera o QR Code de cada convidado a partir do seu UUID. O porteiro lê esse QR Code no app Android e o sistema valida a entrada.
+    </div>
+
+    <div class="code">
+<span class="comment">// Como funciona no QrCodeService.java</span>
+<span class="kw">var</span> writer = <span class="kw">new</span> QRCodeWriter();
+
+<span class="comment">// UUID do convidado → matriz de pixels</span>
+<span class="kw">var</span> matrix = writer.encode(
+    <span class="str">"550e8400-e29b-41d4-a716-446655440000"</span>, <span class="comment">// conteúdo</span>
+    BarcodeFormat.QR_CODE,
+    <span class="hl">400</span>, <span class="hl">400</span>  <span class="comment">// largura x altura em pixels</span>
+);
+
+<span class="comment">// Matriz → imagem PNG em bytes</span>
+MatrixToImageWriter.writeToStream(matrix, <span class="str">"PNG"</span>, outputStream);
+<span class="comment">// Retorna byte[] → enviado como resposta HTTP ou salvo no S3</span>
+    </div>
+  </div>
+</div>
+
+
+<!-- ════════════════════════════════════
+     APACHE POI
+════════════════════════════════════ -->
+<div class="tech-section" id="poi">
+  <div class="tech-header" style="background:#00091a; border-color:#1e3a5f;">
+    <span class="th-ico">📊</span>
+    <div class="th-info">
+      <div class="th-name">Apache POI</div>
+      <div class="th-sub">Leitura e escrita de arquivos Excel (.xlsx)</div>
+    </div>
+    <span class="th-ver c-poi">5.2.5</span>
+  </div>
+  <div class="tech-body" style="border-color:#1e3a5f;">
+    <div class="what-is">
+      <strong>O que é:</strong> Apache POI é a biblioteca padrão do ecossistema Java para manipular arquivos Microsoft Office (Excel, Word, PowerPoint) programaticamente.<br><br>
+      <strong>Por que no EventPass:</strong> O admin pode importar uma lista de centenas de convidados de uma planilha Excel em vez de cadastrar um por um. O PlanilhaService usa o POI para ler o arquivo, interpretar as colunas e transformar cada linha em um ConvidadoRequest.
+    </div>
+
+    <div class="code">
+<span class="comment">// Como o PlanilhaService lê o Excel</span>
+Workbook workbook = <span class="kw">new</span> XSSFWorkbook(arquivo.getInputStream());
+Sheet sheet = workbook.getSheetAt(<span class="hl">0</span>);         <span class="comment">// primeira aba</span>
+Row cabecalho = sheet.getRow(<span class="hl">0</span>);             <span class="comment">// linha 1 = cabeçalho</span>
+
+<span class="kw">for</span> (<span class="kw">int</span> i = <span class="hl">1</span>; i &lt;= sheet.getLastRowNum(); i++) {
+    Row row = sheet.getRow(i);
+    String nome  = row.getCell(<span class="hl">0</span>).getStringCellValue();
+    String fone  = row.getCell(<span class="hl">1</span>).getStringCellValue();
+    <span class="comment">// ... monta ConvidadoRequest e salva no banco</span>
+}
+    </div>
+
+    <div class="alert alert-info">
+      <span class="al-ico">📋</span>
+      <span class="al-txt">O arquivo Excel deve ter na primeira linha o cabeçalho com os nomes das colunas: <strong>nome, documento, telefone, email, grupo_tag, acompanhantes</strong>. Apenas "nome" é obrigatório.</span>
+    </div>
+  </div>
+</div>
+
+
+<!-- ════════════════════════════════════
+     POSTMAN
+════════════════════════════════════ -->
+<div class="tech-section" id="postman">
+  <div class="tech-header" style="background:#1a0500; border-color:#c2410c;">
+    <span class="th-ico">🧪</span>
+    <div class="th-info">
+      <div class="th-name">Postman</div>
+      <div class="th-sub">Testar e documentar a API REST</div>
+    </div>
+    <span class="th-ver c-postman">Latest</span>
+  </div>
+  <div class="tech-body" style="border-color:#c2410c;">
+    <div class="what-is">
+      <strong>O que é:</strong> Postman é uma ferramenta gráfica para testar APIs REST. Permite criar, organizar e executar requisições HTTP sem precisar escrever código, visualizando as respostas de forma clara.<br><br>
+      <strong>Por que no EventPass:</strong> É a principal ferramenta de teste da API durante o desenvolvimento — antes do frontend e do app Android estarem prontos.
+    </div>
+
+    <div class="steps">
+      <div class="step-item">
+        <div class="step-num c-postman">1</div>
+        <div class="step-content">
+          <div class="step-title">Instalar e configurar variáveis</div>
+          <div class="code">
+<span class="comment"># Baixe em: https://www.postman.com/downloads/</span>
+
+<span class="comment"># Crie um Environment com estas variáveis:</span>
+<span class="hl">base_url</span>  → http://localhost:8080/api
+<span class="hl">token</span>     → (deixar vazio — preenchido após login)
+<span class="hl">evento_id</span> → (preenchido após criar um evento)
+          </div>
+        </div>
+      </div>
+      <div class="step-item">
+        <div class="step-num c-postman">2</div>
+        <div class="step-content">
+          <div class="step-title">Script na aba Tests — salva token automaticamente</div>
+          <div class="code">
+<span class="comment">// Cole na aba Tests da requisição de login:</span>
+<span class="kw">const</span> resp = pm.response.json();
+<span class="kw">if</span> (resp.token) {
+    pm.environment.set(<span class="str">"token"</span>, resp.token);
+    console.log(<span class="str">"✅ Token salvo!"</span>);
+}
+
+<span class="comment">// Cole na aba Tests após criar um evento:</span>
+<span class="kw">const</span> resp = pm.response.json();
+<span class="kw">if</span> (resp.id) {
+    pm.environment.set(<span class="str">"evento_id"</span>, resp.id);
+    console.log(<span class="str">"✅ Evento ID salvo: "</span> + resp.id);
+}
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <table class="cmd-table">
+      <tr><th>Conceito Postman</th><th>Para que serve</th></tr>
+      <tr><td>Collection</td><td>Agrupa as requisições de um projeto organizado por pastas</td></tr>
+      <tr><td>Environment</td><td>Conjunto de variáveis reutilizáveis (base_url, token...)</td></tr>
+      <tr><td>{{variavel}}</td><td>Referencia uma variável do environment na URL ou body</td></tr>
+      <tr><td>Aba Tests</td><td>Scripts JS que rodam após a resposta — salva variáveis, valida resultados</td></tr>
+      <tr><td>Aba Pre-request</td><td>Scripts que rodam antes de enviar — útil para gerar dados dinâmicos</td></tr>
+      <tr><td>Runner</td><td>Executa uma sequência de requisições automaticamente</td></tr>
+    </table>
+  </div>
+</div>
+
+
+</main>
+</div>
+
+<script>
+// Highlight sidebar item on scroll
+const sections = document.querySelectorAll('.tech-section');
+const links = document.querySelectorAll('.sidebar a');
+
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      links.forEach(l => l.classList.remove('active'));
+      const id = entry.target.id;
+      const link = document.querySelector('.sidebar a[href="#' + id + '"]');
+      if (link) link.classList.add('active');
+    }
+  });
+}, { threshold: 0.3 });
+
+sections.forEach(s => observer.observe(s));
+</script>
+</body>
+</html>

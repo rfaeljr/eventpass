@@ -1,0 +1,100 @@
+# ══════════════════════════════════════════════════════════════
+#  EventPass — Docker Compose DEV (só infraestrutura)
+#
+#  Sobe MySQL, Redis, RabbitMQ e o backend.
+#  O frontend roda localmente com hot reload:
+#
+#    docker compose -f docker-compose.dev.yml up -d
+#    cd eventpass-web && npm install && npm run dev
+#
+#  Frontend disponível em: http://localhost:5173 (Vite)
+#  O vite.config.ts já faz proxy /api → localhost:8080
+# ══════════════════════════════════════════════════════════════
+
+services:
+
+  mysql:
+    image: mysql:8.0
+    container_name: eventpass-mysql-dev
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE:      eventpass
+      MYSQL_USER:          eventpass
+      MYSQL_PASSWORD:      eventpass123
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql_dev_data:/var/lib/mysql
+      - ./eventpass/src/main/resources/db/eventpass-ddl.sql:/docker-entrypoint-initdb.d/01-ddl.sql
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+      start_period: 30s
+    networks:
+      - eventpass-dev
+
+  redis:
+    image: redis:7-alpine
+    container_name: eventpass-redis-dev
+    restart: unless-stopped
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_dev_data:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      retries: 5
+    networks:
+      - eventpass-dev
+
+  rabbitmq:
+    image: rabbitmq:3-management-alpine
+    container_name: eventpass-rabbitmq-dev
+    restart: unless-stopped
+    environment:
+      RABBITMQ_DEFAULT_USER: guest
+      RABBITMQ_DEFAULT_PASS: guest
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    volumes:
+      - rabbitmq_dev_data:/var/lib/rabbitmq
+    networks:
+      - eventpass-dev
+
+  eventpass-app:
+    build:
+      context: ./eventpass
+      dockerfile: Dockerfile
+    container_name: eventpass-app-dev
+    restart: unless-stopped
+    depends_on:
+      mysql:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    env_file:
+      - .env
+    environment:
+      SPRING_PROFILES_ACTIVE: dev
+      DB_USERNAME:   eventpass
+      DB_PASSWORD:   eventpass123
+      REDIS_HOST:    redis
+      RABBITMQ_HOST: rabbitmq
+    ports:
+      - "8080:8080"
+    networks:
+      - eventpass-dev
+
+volumes:
+  mysql_dev_data:
+  redis_dev_data:
+  rabbitmq_dev_data:
+
+networks:
+  eventpass-dev:
+    driver: bridge

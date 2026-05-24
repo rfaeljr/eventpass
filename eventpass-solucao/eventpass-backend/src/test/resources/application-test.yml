@@ -1,0 +1,29 @@
+spring:
+  application:
+    name: eventpass
+
+  # ── BANCO DE DADOS ──────────────────────────────────────────────────────────
+  datasource:
+    url: jdbc:mysql://localhost:3306/eventpass?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=America/Sao_Paulo&characterEncoding=UTF-8
+    username: ${DB_USERNAME:root}
+    password: ${DB_PASSWORD:root}
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    hikari:
+      maximum-pool-size: 10
+      minimum-idle: 2
+      connection-timeout: 30000
+
+  jpa:
+    hibernate:
+      ddl-auto: validate          # Em produção sempre validate — DDL gerenciado pelo script SQL
+    show-sql: false
+    properties:
+      hibernate:
+        hbm2ddl:
+          import_files: db/import.sql  # Arquivo SQL para popular o banco de dados de teste
+        dialect: org.hibernate.dialect.MySQLDialect
+        format_sql: true
+        default_batch_fetch_size: 20
+    open-in-view: false           # Evita lazy loading fora da transação
+
+

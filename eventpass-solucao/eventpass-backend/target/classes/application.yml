@@ -1,0 +1,162 @@
+spring:
+  application:
+    name: eventpass
+
+  # ── BANCO DE DADOS ──────────────────────────────────────────────────────────
+  datasource:
+    url: jdbc:mysql://${DB_HOST:localhost}:3306/eventpass?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=America/Sao_Paulo&characterEncoding=UTF-8
+    username: ${DB_USERNAME:root}
+    password: ${DB_PASSWORD:root}
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    hikari:
+      maximum-pool-size: 10
+      minimum-idle: 2
+      connection-timeout: 30000
+
+  jpa:
+    hibernate:
+      ddl-auto: validate          # Em produção sempre validate — DDL gerenciado pelo script SQL
+    show-sql: false
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQLDialect
+        format_sql: true
+        default_batch_fetch_size: 20
+    open-in-view: false           # Evita lazy loading fora da transação
+
+  # ── REDIS ────────────────────────────────────────────────────────────────────
+  data:
+    redis:
+      host: ${REDIS_HOST:localhost}
+      port: ${REDIS_PORT:6379}
+      password: ${REDIS_PASSWORD:}
+      timeout: 3000ms
+
+  # ── EMAIL ────────────────────────────────────────────────────────────────────
+  mail:
+    host: ${MAIL_HOST:smtp.gmail.com}
+    port: ${MAIL_PORT:587}
+    username: ${MAIL_USERNAME:}
+    password: ${MAIL_PASSWORD:}
+    properties:
+      mail.smtp.auth: true
+      mail.smtp.starttls.enable: true
+
+  # ── RABBITMQ (fila de notificações) ─────────────────────────────────────────
+  rabbitmq:
+    host: ${RABBITMQ_HOST:localhost}
+    port: ${RABBITMQ_PORT:5672}
+    username: ${RABBITMQ_USER:guest}
+    password: ${RABBITMQ_PASS:guest}
+    virtual-host: /
+
+  # ── UPLOAD ───────────────────────────────────────────────────────────────────
+  servlet:
+    multipart:
+      max-file-size: 10MB
+      max-request-size: 15MB
+
+# ── SERVIDOR ──────────────────────────────────────────────────────────────────
+server:
+  port: ${PORT:8080}
+  servlet:
+    context-path: /api
+  compression:
+    enabled: true
+    mime-types: application/json,text/plain
+  error:
+    include-message: never       # Nunca vazar stack trace em produção
+
+# ── JWT ────────────────────────────────────────────────────────────────────────
+jwt:
+  secret: ${JWT_SECRET:eventpass-secret-dev-only-troque-em-producao-min-256bits}
+  expiracao-ms: 86400000         # 24 horas
+  expiracao-device-ms: 31536000000  # 1 ano (device token)
+  expiracao-pareamento-ms: 600000   # 10 minutos (token de pareamento)
+
+# ── OTP ────────────────────────────────────────────────────────────────────────
+otp:
+  expiracao-minutos: 5
+  max-tentativas: 5
+  tamanho: 6
+
+# ── TRIAL ─────────────────────────────────────────────────────────────────────
+trial:
+  dias: 14
+
+# ── WHATSAPP (Z-API) ──────────────────────────────────────────────────────────
+whatsapp:
+  base-url: ${ZAPI_BASE_URL:https://api.z-api.io}
+  instance-id: ${ZAPI_INSTANCE_ID:}
+  token: ${ZAPI_TOKEN:}
+  client-token: ${ZAPI_CLIENT_TOKEN:}
+
+# ── MERCADO PAGO ──────────────────────────────────────────────────────────────
+mercado-pago:
+  access-token: ${MP_ACCESS_TOKEN:}
+  webhook-secret: ${MP_WEBHOOK_SECRET:}
+
+# ── STORAGE S3 ────────────────────────────────────────────────────────────────
+storage:
+  provider: ${STORAGE_PROVIDER:local}   # local | s3 | minio
+  bucket: ${S3_BUCKET:eventpass-dev}
+  region: ${S3_REGION:sa-east-1}
+  access-key: ${S3_ACCESS_KEY:}
+  secret-key: ${S3_SECRET_KEY:}
+  endpoint: ${S3_ENDPOINT:}             # Preencher apenas para MinIO
+  base-url: ${STORAGE_BASE_URL:http://localhost:8080/api/arquivos}
+
+# ── RABBITMQ FILAS ─────────────────────────────────────────────────────────────
+filas:
+  notificacoes: notificacoes.queue
+  notificacoes-dlq: notificacoes.dlq
+
+# ── ACTUATOR ─────────────────────────────────────────────────────────────────
+management:
+  health:
+    mail:
+      enabled: false
+  endpoints:
+    web:
+      exposure:
+        include: health,info,metrics
+  endpoint:
+    health:
+      show-details: always #when-authorized
+
+# ── LOGGING ──────────────────────────────────────────────────────────────────
+logging:
+  level:
+    br.com.eventpass: DEBUG
+    org.springframework.security: WARN
+    org.hibernate.SQL: WARN
+  pattern:
+    console: "%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{36} - %msg%n"
+
+---
+# ── PERFIL: dev (padrão local) ────────────────────────────────────────────────
+spring:
+  config:
+    activate:
+      on-profile: dev
+  jpa:
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+
+  logging:
+    level:
+      org.hibernate.orm.jdbc.bind: trace
+
+---
+# ── PERFIL: prod ───────────────────────────────────────────────────────────────
+spring:
+  config:
+    activate:
+      on-profile: prod
+  jpa:
+    show-sql: false
+logging:
+  level:
+    br.com.eventpass: INFO

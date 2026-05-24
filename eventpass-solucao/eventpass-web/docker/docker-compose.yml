@@ -1,0 +1,157 @@
+# ══════════════════════════════════════════════════════════════
+#  EventPass — Docker Compose (Stack completa)
+#
+#  Serviços:
+#    mysql         → Banco de dados principal
+#    redis         → Cache, filas, tokens OTP
+#    rabbitmq      → Mensageria assíncrona (envio de convites)
+#    eventpass-app → Spring Boot API (porta 8080)
+#    eventpass-web → React + Nginx  (porta 3000)
+#
+#  Como usar:
+#    1. cp .env.example .env          # Configure suas variáveis
+#    2. docker compose up -d          # Sobe toda a stack
+#    3. Acesse http://localhost:3000  # Painel web
+#       Acesse http://localhost:8080/api/actuator/health  # API
+#
+#  Para desenvolvimento do frontend (hot reload):
+#    docker compose up -d mysql redis rabbitmq eventpass-app
+#    cd eventpass-web && npm run dev
+# ══════════════════════════════════════════════════════════════
+
+services:
+
+  # ── MySQL 8 ─────────────────────────────────────────────────
+  mysql:
+    image: mysql:8.0
+    container_name: eventpass-mysql
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: ${DB_ROOT_PASSWORD:-root}
+      MYSQL_DATABASE:      eventpass
+      MYSQL_USER:          ${DB_USERNAME:-eventpass}
+      MYSQL_PASSWORD:      ${DB_PASSWORD:-eventpass123}
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+      # Script DDL criado automaticamente na primeira inicialização
+      - ./eventpass/src/main/resources/db/eventpass-ddl.sql:/docker-entrypoint-initdb.d/01-ddl.sql
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost",
+             "-u", "${DB_USERNAME:-eventpass}",
+             "-p${DB_PASSWORD:-eventpass123}"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+      start_period: 30s
+    networks:
+      - eventpass-net
+
+  # ── Redis 7 ─────────────────────────────────────────────────
+  redis:
+    image: redis:7-alpine
+    container_name: eventpass-redis
+    restart: unless-stopped
+    command: >
+      redis-server
+      --requirepass ${REDIS_PASSWORD:-}
+      --maxmemory 256mb
+      --maxmemory-policy allkeys-lru
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - eventpass-net
+
+  # ── RabbitMQ 3 ──────────────────────────────────────────────
+  rabbitmq:
+    image: rabbitmq:3-management-alpine
+    container_name: eventpass-rabbitmq
+    restart: unless-stopped
+    environment:
+      RABBITMQ_DEFAULT_USER: ${RABBITMQ_USER:-guest}
+      RABBITMQ_DEFAULT_PASS: ${RABBITMQ_PASS:-guest}
+    ports:
+      - "5672:5672"
+      - "15672:15672"   # Painel RabbitMQ → http://localhost:15672
+    volumes:
+      - rabbitmq_data:/var/lib/rabbitmq
+    healthcheck:
+      test: ["CMD", "rabbitmq-diagnostics", "-q", "ping"]
+      interval: 20s
+      timeout: 10s
+      retries: 5
+      start_period: 30s
+    networks:
+      - eventpass-net
+
+  # ── Spring Boot API ─────────────────────────────────────────
+  eventpass-app:
+    build:
+      context: ./eventpass
+      dockerfile: Dockerfile
+    container_name: eventpass-app
+    restart: unless-stopped
+    depends_on:
+      mysql:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+      rabbitmq:
+        condition: service_healthy
+    env_file:
+      - .env
+    environment:
+      SPRING_PROFILES_ACTIVE: ${SPRING_PROFILES_ACTIVE:-dev}
+      DB_USERNAME:    ${DB_USERNAME:-eventpass}
+      DB_PASSWORD:    ${DB_PASSWORD:-eventpass123}
+      REDIS_HOST:     redis
+      REDIS_PORT:     6379
+      REDIS_PASSWORD: ${REDIS_PASSWORD:-}
+      RABBITMQ_HOST:  rabbitmq
+      RABBITMQ_PORT:  5672
+      RABBITMQ_USER:  ${RABBITMQ_USER:-guest}
+      RABBITMQ_PASS:  ${RABBITMQ_PASS:-guest}
+    ports:
+      - "8080:8080"
+    healthcheck:
+      test: ["CMD", "wget", "-qO-", "http://localhost:8080/api/actuator/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+      start_period: 60s
+    networks:
+      - eventpass-net
+
+  # ── React + Nginx (Frontend) ─────────────────────────────────
+  eventpass-web:
+    build:
+      context: ./eventpass-web
+      dockerfile: Dockerfile
+    container_name: eventpass-web
+    restart: unless-stopped
+    depends_on:
+      eventpass-app:
+        condition: service_healthy
+    ports:
+      - "3000:80"
+    networks:
+      - eventpass-net
+
+# ── Volumes persistentes ─────────────────────────────────────
+volumes:
+  mysql_data:
+  redis_data:
+  rabbitmq_data:
+
+# ── Rede interna isolada ─────────────────────────────────────
+networks:
+  eventpass-net:
+    driver: bridge

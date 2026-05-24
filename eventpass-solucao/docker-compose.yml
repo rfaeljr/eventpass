@@ -1,0 +1,119 @@
+version: '3.9'
+
+services:
+
+  mysql:
+    image: mysql:8.0
+    container_name: eventpass-mysql
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: eventpass
+      MYSQL_USER: eventpass
+      MYSQL_PASSWORD: eventpass123
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+      - ./eventpass-backend/src/main/resources/db/eventpass-ddl.sql:/docker-entrypoint-initdb.d/01-ddl.sql
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - eventpass-network
+
+  redis:
+    image: redis:7-alpine
+    container_name: eventpass-redis
+    restart: unless-stopped
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+    networks:
+      - eventpass-network
+
+  rabbitmq:
+    image: rabbitmq:3-management-alpine
+    container_name: eventpass-rabbitmq
+    restart: unless-stopped
+    environment:
+      RABBITMQ_DEFAULT_USER: guest
+      RABBITMQ_DEFAULT_PASS: guest
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    volumes:
+      - rabbitmq_data:/var/lib/rabbitmq
+    healthcheck:
+      test: ["CMD", "rabbitmq-diagnostics", "check_running"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+    networks:
+      - eventpass-network
+
+  app:
+    build:
+      context: ./eventpass-backend
+      dockerfile: Dockerfile
+    container_name: eventpass-app
+    restart: unless-stopped
+    depends_on:
+      mysql:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+      rabbitmq:
+        condition: service_healthy
+    env_file:
+      - ./eventpass-backend/.env
+    environment:
+      SPRING_PROFILES_ACTIVE: dev
+      JAVA_TOOL_OPTIONS: "-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:5005"
+      DB_HOST: mysql
+      DB_USERNAME: eventpass
+      DB_PASSWORD: eventpass123
+      REDIS_HOST: redis
+      RABBITMQ_HOST: rabbitmq
+    ports:
+      - "0.0.0.0:8080:8080"   # ← bind em todas as interfaces
+      - "0.0.0.0:5005:5005"
+    healthcheck:
+      test: ["CMD", "wget", "-qO-", "http://localhost:8080/api/actuator/health"]  # ← /api sem duplicata
+      interval: 30s
+      timeout: 10s
+      retries: 5
+      start_period: 60s
+    networks:
+      - eventpass-network
+
+  web:
+    build:
+      context: ./eventpass-web
+      dockerfile: Dockerfile
+    container_name: eventpass-web
+    restart: unless-stopped
+    depends_on:
+      app:
+        condition: service_healthy
+    ports:
+      - "3000:3000"     # ← nginx na 80 interna, exposta na 3000
+    networks:
+      - eventpass-network
+
+volumes:
+  mysql_data:
+  redis_data:
+  rabbitmq_data:
+
+networks:
+  eventpass-network:
+    driver: bridge
